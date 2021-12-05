@@ -9,6 +9,7 @@
 #include <WinSock2.h>
 #include <ws2tcpip.h>
 #include <time.h>
+#include <stdbool.h>
 
 
 
@@ -23,6 +24,7 @@ typedef struct list {
 	char author[MAXLEN];
 	char title[MAXLEN];
 	char topic[MAXLEN];
+	bool set;
 
 } LIST;
 
@@ -54,5 +56,7 @@ void InitList(LIST postings[]);
 
 void getAll(char* buffer, LIST postings[]);
 void getOne(char* buffer, LIST postings);
+
+void postOne(char* author, char* topic, char* title, LIST postings[]);
 
 

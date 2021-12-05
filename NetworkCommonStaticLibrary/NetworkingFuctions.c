@@ -231,7 +231,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 		//printf("The GET was called");
 		//GET /posts/ OR GET /posts/#
 
-		if (request[11] == ' ') //changed from newline
+		if (request[11] == ' ') //changed from newline // can change to [10] if i want uri to be localhost:8080/posts
 		{
 			printf("Print all posts\n");
 			//call get function to print all
@@ -302,9 +302,13 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			
 		}
 
-		printf("\nAuthor: %s, Topic: %s, Title: %s\n", author, topic, title);
+		postOne(author, topic, title, postings);
 
-		createPayload(buffer);
+		//printf("\nAuthor: %s, Topic: %s, Title: %s\n", author, topic, title);
+
+		//createPayload(buffer);
+		//getOne(buffer, postings[1]);
+		getAll(buffer, postings);
 		
 		break;
 	case 3:
@@ -532,6 +536,7 @@ void InitList(LIST postings[])
 		strcpy(postings[i].author, "unset");
 		strcpy(postings[i].topic, "unset");
 		strcpy(postings[i].title, "unset");
+		postings[i].set = false;
 	}
 }
 
@@ -574,4 +579,27 @@ void getOne(char* buffer, LIST postings)
 	strcat(buffer, tempStringTwo);
 
 	
+}
+
+void postOne(char* author, char* topic, char* title, LIST postings[])
+{
+	int count = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (postings[i].set == false)
+		{
+			strcpy(postings[i].author, author);
+			strcpy(postings[i].topic, topic);
+			strcpy(postings[i].title, title);
+
+			int count = 1;
+			break;
+		}
+
+		if (count == 1)
+		{
+			break;
+		}
+	}
 }
