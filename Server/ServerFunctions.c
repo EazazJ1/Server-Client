@@ -3,8 +3,27 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "ServerFunctions.h"
 #include "NetworkingFunctions.h"
+//#define MAXLEN 50
+//typedef struct list {
+//	int postNum;
+//	char author[MAXLEN];
+//	char title[MAXLEN];
+//	char topic[MAXLEN];
+//
+//} LIST;
 
+//void InitList(LIST postings[])
+//{
+//	for (int i = 0; i < 10; i++)
+//	{
+//		postings[i].postNum = i + 1;
+//		strcpy(postings[i].author, "unset");
+//		strcpy(postings[i].topic, "unset");
+//		strcpy(postings[i].title, "unset");
+//	}
+//}
 
 void parsing(char buffer[])
 {

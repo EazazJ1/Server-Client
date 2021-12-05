@@ -182,7 +182,7 @@ void createGetPayload(char* buffer)
 	sprintf(buffer, "%s\n\0\0", response);
 }
 
-void RecvRequestAndSendResponse(SOCKET socket_client)
+void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 {
 	printf("Reading request...\n");
 	char request[SENDBUFFERSIZE];
@@ -193,7 +193,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 
 	printf("building response\n");
 	char buffer[SENDBUFFERSIZE];
-
+	memset(buffer, '\0', SENDBUFFERSIZE);
 	//char get[] = "GET\n";
 	char* firstWord = "";
 
@@ -231,12 +231,12 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 		//printf("The GET was called");
 		//GET /posts/ OR GET /posts/#
 
-		if (request[11] == ' ')
+		if (request[11] == ' ') //changed from newline
 		{
 			printf("Print all posts\n");
 			//call get function to print all
-
-			createPayload(buffer);
+			getAll(buffer, postings);
+			//createPayload(buffer);
 		}
 		else
 		{
@@ -247,10 +247,12 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 			strncpy(num, &request[11], 2);
 
 			int postNum = atoi(num);
-			printf("This is the post number you want %d\n", postNum);
+
+			getOne(buffer, postings[postNum - 1]);
+			//printf("This is the post number you want %d\n", postNum);
 			//call get function for post number
 
-			createPayload(buffer);
+			//createPayload(buffer);
 		}
 		break;
 	case 2:
@@ -520,4 +522,56 @@ int OperationNum(char firstword[])
 	}
 
 	return result;
+}
+
+void InitList(LIST postings[])
+{
+	for (int i = 0; i < 10; i++)
+	{
+		postings[i].postNum = i + 1;
+		strcpy(postings[i].author, "unset");
+		strcpy(postings[i].topic, "unset");
+		strcpy(postings[i].title, "unset");
+	}
+}
+
+void getAll(char* buffer, LIST postings[])
+{
+	const char* response =
+		"HTTP/1.1 200 OK\r\n"
+		"Connection: close\r\n"
+		"Content-Type: text/plain\r\n\r\n";
+		
+	strcat(buffer, response);
+
+	for (int i = 0; i < 10; i++)
+	{
+		char tempString[SENDBUFFERSIZE];
+		memset(tempString, '\0', SENDBUFFERSIZE);
+		snprintf(tempString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+
+		strcat(buffer, tempString);
+
+	}
+
+
+}
+
+void getOne(char* buffer, LIST postings)
+{
+	
+	const char* response =
+		"HTTP/1.1 200 OK\r\n"
+		"Connection: close\r\n"
+		"Content-Type: text/plain\r\n\r\n";
+
+	strcat(buffer, response);
+	char tempStringTwo[SENDBUFFERSIZE];
+	memset(tempStringTwo, '\0', SENDBUFFERSIZE);
+	
+	snprintf(tempStringTwo, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings.postNum, postings.author, postings.topic, postings.title);
+
+	strcat(buffer, tempStringTwo);
+
+	
 }

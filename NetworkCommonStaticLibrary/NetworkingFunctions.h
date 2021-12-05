@@ -5,13 +5,26 @@
 #define _WIN32_WINNT	0x6000
 #endif
 
+
 #include <WinSock2.h>
 #include <ws2tcpip.h>
 #include <time.h>
 
+
+
+
 #define DISPLAYBUFFERSIZE	100
 #define SENDBUFFERSIZE	1000
 #define MAXLISTENERS		10
+#define MAXLEN 50
+
+typedef struct list {
+	int postNum;
+	char author[MAXLEN];
+	char title[MAXLEN];
+	char topic[MAXLEN];
+
+} LIST;
 
 typedef enum proto { UDP, TCP } PROTOCOL;
 
@@ -25,7 +38,7 @@ struct addrinfo* ConfigureLocalAddress(char*, PROTOCOL);
 SOCKET CreateBindListeningSocket(struct addrinfo*);
 void StartListeningForConnections(SOCKET);
 SOCKET WaitForAndAcceptConnection(SOCKET);
-void RecvRequestAndSendResponse(SOCKET);
+void RecvRequestAndSendResponse(SOCKET, LIST postings[]);
 void RecvUDPRequestAndSendResponse(SOCKET);
 
 //client only
@@ -33,5 +46,13 @@ struct addrinfo* ConfigureRemoteAddress(char*, char*, PROTOCOL);
 SOCKET CreateAndConnectRemoteSocket(struct addrinfo*);
 
 void parse(char buffer[]);
+
+
+
+
+void InitList(LIST postings[]);
+
+void getAll(char* buffer, LIST postings[]);
+void getOne(char* buffer, LIST postings);
 
 
