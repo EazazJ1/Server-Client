@@ -59,4 +59,6 @@ void getOne(char* buffer, LIST postings);
 
 void postOne(char* author, char* topic, char* title, LIST postings[]);
 
+void putOne(char* author, char* topic, char* title, LIST postings[]);
+
 

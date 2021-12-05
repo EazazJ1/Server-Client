@@ -368,9 +368,13 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 
 		//if the variable doesnt equal "unchanged", then set the new value
 
-		printf("\nPost: %d Author: %s, Topic: %s, Title: %s\n",atoi(post), author, topic, title);
+		//printf("\nPost: %d Author: %s, Topic: %s, Title: %s\n",atoi(post), author, topic, title);
 
-		createPayload(buffer);
+		//createPayload(buffer);
+		int number = atoi( post);
+		putOne(author, topic, title, &postings[number - 1]);
+
+		getAll(buffer, postings);
 
 		break;
 	case 4:
@@ -554,7 +558,6 @@ void getAll(char* buffer, LIST postings[])
 		char tempString[SENDBUFFERSIZE];
 		memset(tempString, '\0', SENDBUFFERSIZE);
 		snprintf(tempString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
-
 		strcat(buffer, tempString);
 
 	}
@@ -602,4 +605,22 @@ void postOne(char* author, char* topic, char* title, LIST postings[])
 			break;
 		}
 	}
+}
+
+void putOne(char* author, char* topic, char* title, LIST* postings)
+{
+	char* unchanged = "unchanged";
+	if (strcmp(author, "unchanged") != 0)
+	{
+		strcpy(postings->author, author);
+	}
+	if (strcmp(topic, "unchanged") != 0)
+	{
+		strcpy(postings->topic, topic);
+	}
+	if (strcmp(title, "unchanged") != 0)
+	{
+		strcpy(postings->title, title);
+	}
+
 }
