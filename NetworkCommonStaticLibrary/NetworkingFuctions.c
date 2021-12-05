@@ -205,7 +205,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 	//here
 	char temp[100];
 	memset(temp, '\0', 100);
-	strncpy(temp, &request[5], 99);
+	strncpy(temp, &request[7], 99);		//changed from 5 to 7 because of DELETE
 
 	char* newPost;
 	newPost = strtok(temp, "/");
@@ -229,6 +229,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 	{
 	case 1:
 		//printf("The GET was called");
+		//GET /posts/ OR GET /posts/#
 
 		if (request[11] == ' ')
 		{
@@ -368,6 +369,27 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 		break;
 	case 4:
 		printf("The DELETE was called");
+		//DELETE /posts/#/
+
+		while (newPost != NULL)
+		{
+			newPost = strtok(NULL, "/");
+			if (count == 1)
+			{
+				strcpy(post, newPost);
+				count++;
+			}
+			else
+			{
+				break;
+			}
+
+		}
+
+		printf("\nPost: %d\n", atoi(post));
+
+		createPayload(buffer);
+
 		break;
 	default:
 	
