@@ -225,12 +225,60 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 			printf("This is the post number you want %d\n", postNum);
 			//call get function for post number
 
-
 			createPayload(buffer);
 		}
 		break;
 	case 2:
 		printf("The POST was called");
+		//POST /posts/author/title/
+
+		char temp[100];
+		memset(temp, '\0', 100);
+		strncpy(temp, &request[5], 99);
+
+		char* newPost;
+		newPost = strtok(temp, "/");
+		
+		char author[20];
+		memset(author, '\0', 20);
+
+		char title[20];
+		memset(title, '\0', 20);
+
+		char topic[20];
+		memset(topic, '\0', 20);
+
+
+		int count = 1;
+		while(newPost != NULL)
+		{
+			newPost = strtok(NULL, "/");
+			if (count == 1)
+			{				
+				strcpy(author, newPost);
+				count++;
+			}
+			else if (count == 2)
+			{				
+				strcpy(title, newPost);
+				count++;
+			}
+			else if (count == 3)
+			{				
+				strcpy(topic, newPost);
+				count++;
+			}
+			else
+			{
+				break;
+			}			
+			
+		}
+
+		printf("\nAuthor: %s, Topic: %s, Title: %s\n", author, topic, title);
+
+		createPayload(buffer);
+		
 		break;
 	case 3:
 		printf("The PUT was called");
