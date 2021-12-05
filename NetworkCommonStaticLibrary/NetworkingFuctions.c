@@ -201,6 +201,30 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 
 	int switchNum = OperationNum(firstWord);
 
+
+	//here
+	char temp[100];
+	memset(temp, '\0', 100);
+	strncpy(temp, &request[5], 99);
+
+	char* newPost;
+	newPost = strtok(temp, "/");
+
+	char post[20];
+	memset(post, '\0', 20);
+
+	char author[20];
+	memset(author, '\0', 20);
+
+	char title[20];
+	memset(title, '\0', 20);
+
+	char topic[20];
+	memset(topic, '\0', 20);
+
+	int count = 1;
+	//here
+
 	switch (switchNum)
 	{
 	case 1:
@@ -232,7 +256,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 		printf("The POST was called");
 		//POST /posts/author/title/
 
-		char temp[100];
+		/*char temp[100];
 		memset(temp, '\0', 100);
 		strncpy(temp, &request[5], 99);
 
@@ -246,10 +270,10 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 		memset(title, '\0', 20);
 
 		char topic[20];
-		memset(topic, '\0', 20);
+		memset(topic, '\0', 20);*/
 
 
-		int count = 1;
+		//int count = 1;
 		while(newPost != NULL)
 		{
 			newPost = strtok(NULL, "/");
@@ -282,6 +306,65 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 		break;
 	case 3:
 		printf("The PUT was called");
+		//PUT /posts/#/author/title/topic/
+
+		/*char tempPut[100];
+		memset(tempPut, '\0', 100);
+		strncpy(tempPut, &request[5], 99);
+
+		char* newPost;
+		newPost = strtok(tempPut, "/");
+
+		char post[20];
+		memset(post, '\0', 20);
+
+		char author[20];
+		memset(author, '\0', 20);
+
+		char title[20];
+		memset(title, '\0', 20);
+
+		char topic[20];
+		memset(topic, '\0', 20);*/
+
+
+		//int count = 1;
+		while (newPost != NULL)
+		{
+			newPost = strtok(NULL, "/");
+			if (count == 1)
+			{
+				strcpy(post, newPost);
+				count++;
+			}
+			else if (count == 2)
+			{
+				strcpy(author, newPost);
+				count++;
+			}
+			else if (count == 3)
+			{
+				strcpy(title, newPost);
+				count++;
+			}
+			else if (count == 4)
+			{
+				strcpy(topic, newPost);
+				count++;
+			}
+			else
+			{
+				break;
+			}
+
+		}
+
+		//if the variable doesnt equal "unchanged", then set the new value
+
+		printf("\nPost: %d Author: %s, Topic: %s, Title: %s\n",atoi(post), author, topic, title);
+
+		createPayload(buffer);
+
 		break;
 	case 4:
 		printf("The DELETE was called");
