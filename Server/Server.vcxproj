@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ServerFunctions.c" />
     <ClCompile Include="Source.c" />
   </ItemGroup>
   <ItemGroup>

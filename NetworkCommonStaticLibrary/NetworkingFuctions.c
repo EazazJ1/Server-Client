@@ -195,8 +195,57 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 	char buffer[SENDBUFFERSIZE];
 
 	//char get[] = "GET\n";
+	char* firstWord = "";
 
-	char* get = "GET\n";
+	firstWord = strtok(request, " ");
+
+	int switchNum = OperationNum(firstWord);
+
+	switch (switchNum)
+	{
+	case 1:
+		//printf("The GET was called");
+
+		if (request[11] == ' ')
+		{
+			printf("Print all posts\n");
+			//call get function to print all
+
+			createPayload(buffer);
+		}
+		else
+		{
+			char number[10] = "";
+
+			char num[2];
+			memset(num, '\0', 1);
+			strncpy(num, &request[11], 2);
+
+			int postNum = atoi(num);
+			printf("This is the post number you want %d\n", postNum);
+			//call get function for post number
+
+
+			createPayload(buffer);
+		}
+		break;
+	case 2:
+		printf("The POST was called");
+		break;
+	case 3:
+		printf("The PUT was called");
+		break;
+	case 4:
+		printf("The DELETE was called");
+		break;
+	default:
+	
+		printf("default");
+		break;
+	
+	}
+	
+	/*char* get = "GET\n";
 
 	if (strcmp(request, get) == 0)
 	{
@@ -205,7 +254,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client)
 	else
 	{
 		createPayload(buffer);
-	}
+	}*/
 
 
 
@@ -250,4 +299,72 @@ void CloseSocketConnection(SOCKET this_socket)
 void ShutdownWindowsSockets()
 {
 	WSACleanup();
+}
+
+void parse(char buffer[])
+{
+	char author[] = "";
+	char title[] = "";
+	char topic[] = "";
+	int postNum = 0;
+
+	const char delimiterSpace = ' ';
+	char delimSlash = "/";
+	char delimAmpersand = "&";
+	char delimQuestion = "?";
+
+
+	
+		char* firstWord = "";
+
+		firstWord = strtok(buffer, " ");
+
+		char* get = "GET";
+
+		if (strcmp(firstWord, get) == 0)
+		{
+			createGetPayload(buffer);
+		}
+		else
+		{
+			createPayload(buffer);
+		}
+
+		//if GET then check to see if there is a number, if no number then display all
+
+		//if POST then check for the inputs
+
+		//if PUT then check for the postNumber and the input
+
+		//if delete then check for the postNumber
+	
+}
+
+int OperationNum(char firstword[])
+{
+	int result;
+
+	if (strcmp(firstword, "GET") == 0)
+	{
+		result = 1;
+		
+	}
+	else if (strcmp(firstword, "POST") == 0)
+	{
+		result = 2;
+	}
+	else if (strcmp(firstword, "PUT") == 0)
+	{
+		result = 3;
+	}
+	else if (strcmp(firstword, "DELETE") == 0)
+	{
+		result = 4;
+	}
+	else
+	{
+		return 0;
+	}
+
+	return result;
 }

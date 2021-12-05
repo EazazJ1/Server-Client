@@ -32,6 +32,6 @@ void RecvUDPRequestAndSendResponse(SOCKET);
 struct addrinfo* ConfigureRemoteAddress(char*, char*, PROTOCOL);
 SOCKET CreateAndConnectRemoteSocket(struct addrinfo*);
 
-
+void parse(char buffer[]);
 
 
