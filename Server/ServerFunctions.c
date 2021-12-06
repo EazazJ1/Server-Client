@@ -97,6 +97,8 @@ void save(LIST postings[])
 	for (int i = 0; i < 10; i++)
 	{
 		fwrite(&postings[i], sizeof(LIST), 1, saveFile);
+
+		//fprintf(saveFile, "%d %s %s %s %d\n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title, postings[i].set);
 	}
 
 	if (fwrite != 0)
@@ -106,4 +108,30 @@ void save(LIST postings[])
 
 	// close file
 	fclose(saveFile);
+
+
+
+	FILE* saveFile2;
+
+	// open file for writing
+	saveFile2 = fopen("DataCheck.txt", "w+");
+	if (saveFile2 == NULL)
+	{
+		fprintf(stderr, "\nError opened file\n");
+		exit(1);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		//fwrite(&postings[i], sizeof(LIST), 1, saveFile);
+
+		fprintf(saveFile2, "%d %s %s %s %d\n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title, postings[i].set);
+	}
+
+	if (fwrite != 0)
+		printf("contents to file written successfully !\n");
+	else
+		printf("error writing file !\n");
+
+	// close file
+	fclose(saveFile2);
 }

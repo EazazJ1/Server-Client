@@ -19,22 +19,22 @@ int main(void)
 
     load(postings);
     
-   // InitList(postings);
+  /*  InitList(postings);
 
-   // strcpy(postings[0].author, "Eazaz");
-   // strcpy(postings[0].topic, "Code");
-   // strcpy(postings[0].title, "strings");
-   // //postings[0].set = true;
+    strcpy(postings[0].author, "Eazaz");
+    strcpy(postings[0].topic, "Code");
+    strcpy(postings[0].title, "strings");
+    postings[0].set = true;
 
-   // strcpy(postings[1].author, "Maaz");
-   // strcpy(postings[1].topic, "Plumbing");
-   // strcpy(postings[1].title, "Cut");
-   // //postings[1].set = true;
+    strcpy(postings[1].author, "Maaz");
+    strcpy(postings[1].topic, "Plumbing");
+    strcpy(postings[1].title, "Cut");
+    postings[1].set = true;
 
-   // strcpy(postings[2].author, "Mubi");
-   // strcpy(postings[2].topic, "Law");
-   // strcpy(postings[2].title, "Family");
-   ////postings[2].set = true;
+    strcpy(postings[2].author, "Mubi");
+    strcpy(postings[2].topic, "Law");
+    strcpy(postings[2].title, "Family");
+    postings[2].set = true;*/
     
     InitializeWindowsSockets();
 

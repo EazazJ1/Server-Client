@@ -287,12 +287,12 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			}
 			else if (count == 2)
 			{				
-				strcpy(title, newPost);
+				strcpy(topic, newPost);
 				count++;
 			}
 			else if (count == 3)
 			{				
-				strcpy(topic, newPost);
+				strcpy(title, newPost);
 				count++;
 			}
 			else
@@ -351,12 +351,12 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			}
 			else if (count == 3)
 			{
-				strcpy(title, newPost);
+				strcpy(topic, newPost);
 				count++;
 			}
 			else if (count == 4)
 			{
-				strcpy(topic, newPost);
+				strcpy(title, newPost);
 				count++;
 			}
 			else
@@ -545,7 +545,7 @@ void InitList(LIST postings[])
 		strcpy(postings[i].author, "unset");
 		strcpy(postings[i].topic, "unset");
 		strcpy(postings[i].title, "unset");
-		postings[i].set = true;
+		postings[i].set = false;
 	}
 }
 
@@ -601,7 +601,7 @@ void postOne(char* author, char* topic, char* title, LIST postings[])
 			strcpy(postings[i].author, author);
 			strcpy(postings[i].topic, topic);
 			strcpy(postings[i].title, title);
-
+			postings[i].set = true;
 			int count = 1;
 			break;
 		}
