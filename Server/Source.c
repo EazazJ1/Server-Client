@@ -17,6 +17,21 @@ int main(void)
     LIST postings[10];
     
     InitList(postings);
+
+    strcpy(postings[1].author, "Eazaz");
+    strcpy(postings[1].topic, "Code");
+    strcpy(postings[1].title, "strings");
+    postings[1].set = false;
+
+    strcpy(postings[2].author, "Maaz");
+    strcpy(postings[2].topic, "Plumbing");
+    strcpy(postings[2].title, "Cut");
+    postings[1].set = false;
+
+    strcpy(postings[3].author, "Mubi");
+    strcpy(postings[3].topic, "Law");
+    strcpy(postings[3].title, "Family");
+    postings[1].set = false;
     
     InitializeWindowsSockets();
 

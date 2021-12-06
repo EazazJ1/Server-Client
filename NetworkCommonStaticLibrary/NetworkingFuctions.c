@@ -396,9 +396,14 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 
 		}
 
-		printf("\nPost: %d\n", atoi(post));
+		//printf("\nPost: %d\n", atoi(post));
 
-		createPayload(buffer);
+		//createPayload(buffer);
+
+		int deleteNum = atoi(post) - 1;
+		deleteOne(postings, deleteNum);
+
+		getAll(buffer, postings);
 
 		break;
 	default:
@@ -540,7 +545,7 @@ void InitList(LIST postings[])
 		strcpy(postings[i].author, "unset");
 		strcpy(postings[i].topic, "unset");
 		strcpy(postings[i].title, "unset");
-		postings[i].set = false;
+		postings[i].set = true;
 	}
 }
 
@@ -555,11 +560,12 @@ void getAll(char* buffer, LIST postings[])
 
 	for (int i = 0; i < 10; i++)
 	{
+		
 		char tempString[SENDBUFFERSIZE];
 		memset(tempString, '\0', SENDBUFFERSIZE);
 		snprintf(tempString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 		strcat(buffer, tempString);
-
+		
 	}
 
 
@@ -621,6 +627,37 @@ void putOne(char* author, char* topic, char* title, LIST* postings)
 	if (strcmp(title, "unchanged") != 0)
 	{
 		strcpy(postings->title, title);
+	}
+
+}
+
+
+void deleteOne(LIST postings[], int num)
+{
+	strcpy(postings[num].author, "UNSET");
+	strcpy(postings[num].topic, "UNSET");
+	strcpy(postings[num].title, "UNSET");
+	postings[num].set = false;
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (postings[i].set == false)
+		{
+			if (postings[i + 1].set == true)
+			{
+				//memcpy(&postings[i], &postings[i + 1], sizeof(LIST));
+
+				strcpy(postings[i].author, postings[i + 1].author);
+				strcpy(postings[i].topic, postings[i + 1].topic);
+				strcpy(postings[i].title, postings[i + 1].title);
+				postings[i].set = true;
+
+				strcpy(postings[i + 1].author, "unset");
+				strcpy(postings[i + 1].topic, "unset");
+				strcpy(postings[i + 1].title, "unset");
+				postings[i + 1].set = false;
+			}
+		}
 	}
 
 }
