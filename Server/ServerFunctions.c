@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "ServerFunctions.h"
 #include "NetworkingFunctions.h"
@@ -61,4 +62,48 @@ void parsing(char buffer[])
 
 		//if delete then check for the postNumber
 	}
+}
+
+void load(LIST postings[])
+{
+	FILE* loadFile;
+	loadFile = fopen("Data.txt", "r");
+
+	if (loadFile == NULL)
+	{
+		fprintf(stderr, "\nError opening file\n");
+		exit(1);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		fread(&postings[i], sizeof(LIST), 1, loadFile);
+	}
+
+	fclose(loadFile);
+}
+
+void save(LIST postings[])
+{
+	FILE* saveFile;
+
+	// open file for writing
+	saveFile = fopen("Data.txt", "w+");
+	if (saveFile == NULL)
+	{
+		fprintf(stderr, "\nError opened file\n");
+		exit(1);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		fwrite(&postings[i], sizeof(LIST), 1, saveFile);
+	}
+
+	if (fwrite != 0)
+		printf("contents to file written successfully !\n");
+	else
+		printf("error writing file !\n");
+
+	// close file
+	fclose(saveFile);
 }

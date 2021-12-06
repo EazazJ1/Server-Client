@@ -6,8 +6,9 @@
 #include <string.h>
 #include <WinSock2.h>
 #include <ws2tcpip.h>
+#include <stdlib.h>
 #include "NetworkingFunctions.h"
-//#include "ServerFunctions.h"
+#include "ServerFunctions.h"
 
 //#define MAXLEN 50
 #define LISTENINGPORT   "8080"      //needs to be a string
@@ -15,23 +16,25 @@
 int main(void)
 {
     LIST postings[10];
+
+    load(postings);
     
-    InitList(postings);
+   // InitList(postings);
 
-    strcpy(postings[1].author, "Eazaz");
-    strcpy(postings[1].topic, "Code");
-    strcpy(postings[1].title, "strings");
-    postings[1].set = false;
+   // strcpy(postings[0].author, "Eazaz");
+   // strcpy(postings[0].topic, "Code");
+   // strcpy(postings[0].title, "strings");
+   // //postings[0].set = true;
 
-    strcpy(postings[2].author, "Maaz");
-    strcpy(postings[2].topic, "Plumbing");
-    strcpy(postings[2].title, "Cut");
-    postings[1].set = false;
+   // strcpy(postings[1].author, "Maaz");
+   // strcpy(postings[1].topic, "Plumbing");
+   // strcpy(postings[1].title, "Cut");
+   // //postings[1].set = true;
 
-    strcpy(postings[3].author, "Mubi");
-    strcpy(postings[3].topic, "Law");
-    strcpy(postings[3].title, "Family");
-    postings[1].set = false;
+   // strcpy(postings[2].author, "Mubi");
+   // strcpy(postings[2].topic, "Law");
+   // strcpy(postings[2].title, "Family");
+   ////postings[2].set = true;
     
     InitializeWindowsSockets();
 
@@ -57,5 +60,7 @@ int main(void)
     CloseSocketConnection(socket_listen);
 
     ShutdownWindowsSockets();
+
+    save(postings);
     return 0;
 }
