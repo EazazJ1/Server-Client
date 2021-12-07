@@ -91,10 +91,10 @@ void exitMenuandCall(char* message)
 
 void getSinglePostInputandCall(char* message)
 {
-	int hi = 0;
+	int check = 0;
 	int postNum;
 
-	while (hi == 0)
+	while (check == 0)
 	{
 		scanf_s("%*c");
 		printf("Please enter the post number you would like to get between 1 and 10:");
@@ -104,7 +104,7 @@ void getSinglePostInputandCall(char* message)
 			if (postNum > 0 && postNum < 11)
 			{
 				getOnePost(message, postNum);
-				hi = 1;
+				check = 1;
 			}
 		}
 	}
@@ -151,7 +151,7 @@ void putInputandCall(char* message)
 	char title[100];
 	memset(title, '\0', 100);
 
-	int hi = 0;
+	int check = 0;
 	int postNum;
 
 	scanf_s("%*c");
@@ -211,7 +211,7 @@ void putInputandCall(char* message)
 		printf("Wrong input. The title will NOT be changed.");
 	}
 
-	while (hi == 0)
+	while (check == 0)
 	{
 		scanf_s("%*c");
 		printf("What post number would you like to change?");
@@ -220,7 +220,7 @@ void putInputandCall(char* message)
 			if (postNum > 0 && postNum < 11)
 			{
 				updatePost(message, author, topic, title, postNum);
-				hi = 1;
+				check = 1;
 
 			}
 			else if (postNum == 0)
@@ -229,7 +229,7 @@ void putInputandCall(char* message)
 			}
 			else
 			{
-				hi = 0;
+				check = 0;
 			}
 		}
 	}
@@ -238,10 +238,10 @@ void putInputandCall(char* message)
 
 void deleteInputandCall(char* message)
 {
-	int hi = 0;
+	int check = 0;
 	int postNum;
 	
-	while (hi == 0)
+	while (check == 0)
 	{
 		scanf_s("%*c");
 		printf("What post number would you like to delete?");
@@ -250,7 +250,7 @@ void deleteInputandCall(char* message)
 			if (postNum > 0 && postNum < 11)
 			{
 				deletePost(message, postNum);
-				hi = 1;
+				check = 1;
 
 			}
 			else if (postNum == 0)
@@ -259,7 +259,7 @@ void deleteInputandCall(char* message)
 			}
 			else
 			{
-				hi = 0;
+				check = 0;
 			}
 		}
 	}
