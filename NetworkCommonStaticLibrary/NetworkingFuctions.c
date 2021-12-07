@@ -231,7 +231,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 		//printf("The GET was called");
 		//GET /posts/ OR GET /posts/#
 
-		if (request[11] == ' ') //changed from newline // can change to [10] if i want uri to be localhost:8080/posts
+		if (request[10] == ' ') //changed from newline // can change to [10] if i want uri to be localhost:8080/posts
 		{
 			printf("Print all posts\n");
 			//call get function to print all
