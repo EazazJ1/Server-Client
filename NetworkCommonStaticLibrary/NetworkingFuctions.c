@@ -306,7 +306,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 
 			}
 
-			postOne(author, topic, title, postings);
+			postOne(buffer,author, topic, title, postings);
 
 			//printf("\nAuthor: %s, Topic: %s, Title: %s\n", author, topic, title);
 
@@ -376,7 +376,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 
 			//createPayload(buffer);
 			int number = atoi(post);
-			putOne(author, topic, title, &postings[number - 1]);
+			putOne(buffer, author, topic, title, &postings[number - 1]);
 
 			getAll(buffer, postings);
 
@@ -405,7 +405,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			//createPayload(buffer);
 
 			int deleteNum = atoi(post) - 1;
-			deleteOne(postings, deleteNum);
+			deleteOne(buffer, postings, deleteNum);
 
 			getAll(buffer, postings);
 
@@ -604,7 +604,7 @@ void getOne(char* buffer, LIST postings)
 	
 }
 
-void postOne(char* author, char* topic, char* title, LIST postings[])
+void postOne(char* buffer, char* author, char* topic, char* title, LIST postings[])
 {
 	int count = 0;
 
@@ -625,9 +625,18 @@ void postOne(char* author, char* topic, char* title, LIST postings[])
 			break;
 		}
 	}
+
+	const char* response =
+		"\nHTTP/1.1 200 CREATED\r\n"
+		"Connection: close\r\n"
+		"Content-Type: text/plain\r\n\r\n";
+	
+	
+	strcat(buffer, response);
+
 }
 
-void putOne(char* author, char* topic, char* title, LIST* postings)
+void putOne(char* buffer, char* author, char* topic, char* title, LIST* postings)
 {
 	char* unchanged = "unchanged";
 	if (strcmp(author, "unchanged") != 0)
@@ -643,10 +652,18 @@ void putOne(char* author, char* topic, char* title, LIST* postings)
 		strcpy(postings->title, title);
 	}
 
+	const char* response =
+		"\nHTTP/1.1 200 CREATED\r\n"
+		"Connection: close\r\n"
+		"Content-Type: text/plain\r\n\r\n";
+
+
+	strcat(buffer, response);
+
 }
 
 
-void deleteOne(LIST postings[], int num)
+void deleteOne(char* buffer, LIST postings[], int num)
 {
 	strcpy(postings[num].author, "UNSET");
 	strcpy(postings[num].topic, "UNSET");
@@ -673,5 +690,13 @@ void deleteOne(LIST postings[], int num)
 			}
 		}
 	}
+
+	const char* response =
+		"\nHTTP/1.1 200 NO CONTENT\r\n"
+		"Connection: close\r\n"
+		"Content-Type: text/plain\r\n\r\n";
+
+
+	strcat(buffer, response);
 
 }

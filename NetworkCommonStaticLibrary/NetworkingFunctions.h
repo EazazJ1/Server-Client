@@ -57,10 +57,10 @@ void InitList(LIST postings[]);
 void getAll(char* buffer, LIST postings[]);
 void getOne(char* buffer, LIST postings);
 
-void postOne(char* author, char* topic, char* title, LIST postings[]);
+void postOne(char* buffer, char* author, char* topic, char* title, LIST postings[]);
 
-void putOne(char* author, char* topic, char* title, LIST* postings);
+void putOne(char* buffer, char* author, char* topic, char* title, LIST* postings);
 
-void deleteOne(LIST postings[], int num);
+void deleteOne(char* buffer, LIST postings[], int num);
 
 
