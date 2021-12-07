@@ -68,7 +68,9 @@ int main(void)
 		
 		printf("Exiting...");
 
-		strcpy(message, "QUIT ");
+		//strcpy(message, "QUIT ");
+
+		exitMenuandCall(message);
 
 		break;
 	case 1:
@@ -78,51 +80,59 @@ int main(void)
 		break;
 	case 2:
 		
-		while (hi == 0)
-		{
-			scanf_s("%*c");
-			printf("Please enter the post number you would like to get between 1 and 10:");
-			
-			if (scanf("%d", &postNum))
-			{
-				if (postNum > 0 && postNum < 11)
-				{					
-					getOnePost(message, postNum);
-					hi = 1;			
-					
-				}
-			}
+		getSinglePostInputandCall(message);
 
-			/*char line[256];
+		//while (hi == 0)
+		//{
+		//	scanf_s("%*c");
+		//	printf("Please enter the post number you would like to get between 1 and 10:");
+		//	
+		//	if (scanf("%d", &postNum))
+		//	{
+		//		if (postNum > 0 && postNum < 11)
+		//		{					
+		//			getOnePost(message, postNum);
+		//			hi = 1;			
+		//			
+		//		}
+		//	}
 
-			if (fgets(line, sizeof line, stdin) != NULL)
-			{
-				sscanf(line, "%d", &postNum);
-			}*/
-		}
+		//	/*char line[256];
+
+		//	if (fgets(line, sizeof line, stdin) != NULL)
+		//	{
+		//		sscanf(line, "%d", &postNum);
+		//	}*/
+		//}
 		break;
 	case 3:
-		scanf_s("%*c");
-		printf("Please enter the name of the author: ");
-		scanf("%[^\n]s", author);
-		//fgets(author, sizeof(author), stdin);
+		
+		postInputandCall(message);
+		
+		//scanf_s("%*c");
+		//printf("Please enter the name of the author: ");
+		//scanf("%[^\n]s", author);
+		////fgets(author, sizeof(author), stdin);
 
-		scanf_s("%*c");
-		printf("Please enter the name of the topic: ");
-		scanf("%[^\n]s", topic);
-		//fgets(topic, sizeof(topic), stdin);
+		//scanf_s("%*c");
+		//printf("Please enter the name of the topic: ");
+		//scanf("%[^\n]s", topic);
+		////fgets(topic, sizeof(topic), stdin);
 
-		scanf_s("%*c");
-		printf("Please enter the name of the title: ");
-		scanf("%[^\n]s", title);
-		//fgets(title, sizeof(title), stdin);
-		scanf_s("%*c");
+		//scanf_s("%*c");
+		//printf("Please enter the name of the title: ");
+		//scanf("%[^\n]s", title);
+		////fgets(title, sizeof(title), stdin);
+		//scanf_s("%*c");
 
-		addPost(message, author, topic, title);
+		//addPost(message, author, topic, title);
 
 		break;
 	case 4:
-		scanf_s("%*c");
+
+		putInputandCall(message);
+
+		/*scanf_s("%*c");
 		printf("Would like to change the author [y/n]? ");
 		char authorchar;
 		authorchar = tolower(getc(stdin));
@@ -200,12 +210,14 @@ int main(void)
 					hi = 0;
 				}
 			}
-		}
+		}*/
 
 		break;
 	case 5:
 
-		while (hi == 0)
+		deleteInputandCall(message);
+
+		/*while (hi == 0)
 		{
 			scanf_s("%*c");
 			printf("What post number would you like to delete?");
@@ -226,7 +238,7 @@ int main(void)
 					hi = 0;
 				}
 			}
-		}
+		}*/
 
 		break;
 	default:
