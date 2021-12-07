@@ -24,99 +24,110 @@ int main(void)
 	//send initial 'greeting'
 	//char* message = "";
 
-	char message[1000];
-	memset(message, '\0', 1000);
 
-	/*char author[100];
-	memset(author, '\0', 100);
+	int killSwitch = 0;
 
-	char topic[100];
-	memset(topic, '\0', 100);
-
-	char title[100];
-	memset(title, '\0', 100);
-
-	int postNum;*/
-
-
-	printf("\nPick the option for the operation you would like to do:\n");
-	printf("0. EXIT\n1. Get all posts.\n2. Get one post.\n3. Create a new post.\n4. Update a post.\n5. Delete a post.\n");
-
-	int choice;
-
-	scanf_s("%d", &choice);
-	//printf("%d", choice);
-
-	/*if (scanf("%d", &choice))
+	while (killSwitch == 0)
 	{
-		if (choice >= 0 && choice <=6)
+		char message[1000];
+		memset(message, '\0', 1000);
+
+		/*char author[100];
+		memset(author, '\0', 100);
+
+		char topic[100];
+		memset(topic, '\0', 100);
+
+		char title[100];
+		memset(title, '\0', 100);
+
+		int postNum;*/
+
+
+		printf("\nPick the option for the operation you would like to do:\n");
+		printf("0. EXIT\n1. Get all posts.\n2. Get one post.\n3. Create a new post.\n4. Update a post.\n5. Delete a post.\n");
+
+		int choice;
+
+		scanf_s("%d", &choice);
+		//printf("%d", choice);
+
+		/*if (scanf("%d", &choice))
 		{
-			
-			
+			if (choice >= 0 && choice <=6)
+			{
 
+
+
+			}
+		}*/
+
+
+		//int hi = 0;
+
+		switch (choice)
+		{
+		case 0:
+
+			printf("Exiting...");
+
+			exitMenuandCall(message);
+			killSwitch = 1;
+
+			break;
+		case 1:
+
+			getAllPosts(message);
+
+			break;
+		case 2:
+
+			getSinglePostInputandCall(message);
+
+			break;
+		case 3:
+
+			postInputandCall(message);
+
+			break;
+		case 4:
+
+			putInputandCall(message);
+
+			break;
+		case 5:
+
+			deleteInputandCall(message);
+
+			break;
+		default:
+
+			printf("Default Switch");
+
+			break;
 		}
-	}*/
 
 
-	//int hi = 0;
-	
-	switch (choice)
-	{
-	case 0:
+		int sent = send(peer_socket, message, strlen(message), 0);
+		if (sent == 0)
+		{
+			fprintf(stderr, "send failed\n");
+			exit(1);
+		}
+
+		//receive reply from server
+		char buffer[MAXBUFFER];
+		memset(buffer, '\0', MAXBUFFER);
+
+		while (recv(peer_socket, buffer, MAXBUFFER, 0) != 0)
+		{
+			printf("%s", buffer);
+			break;
+		}
+
 		
-		printf("Exiting...");
 
-		exitMenuandCall(message);
-
-		break;
-	case 1:
-
-		getAllPosts(message);
-
-		break;
-	case 2:
-		
-		getSinglePostInputandCall(message);
-
-		break;
-	case 3:
-		
-		postInputandCall(message);
-		
-		break;
-	case 4:
-
-		putInputandCall(message);
-
-		break;
-	case 5:
-
-		deleteInputandCall(message);
-
-		break;
-	default:
-	
-		printf("Default Switch");
-
-		break;
 	}
-
-
-	int sent = send(peer_socket, message, strlen(message), 0);
-	if (sent == 0)
-	{
-		fprintf(stderr, "send failed\n");
-		exit(1);
-	}
-
-	//receive reply from server
-	char buffer[MAXBUFFER];
-	memset(buffer, '\0', MAXBUFFER);
-
-	while (recv(peer_socket, buffer, MAXBUFFER, 0) != 0)
-		;
-
-	printf("%s", buffer);
 
 	printf("Closing the connection...\n");
 	CloseSocketConnection(peer_socket);

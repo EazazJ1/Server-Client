@@ -174,8 +174,8 @@ void createGetPayload(char* buffer)
 	const char* response =
 		"HTTP/1.1 200 OK\r\n"
 		"Connection: close\r\n"
-		"Content-Type: text/plain\r\n\r\n"
-		"GET: Steve is an asshole. ";
+		"Content-Type: text/plain\r\n\r\n";
+		
 
 
 
@@ -184,143 +184,35 @@ void createGetPayload(char* buffer)
 
 void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 {
-	printf("Reading request...\n");
-	char request[SENDBUFFERSIZE];
-	memset(request, '\0', SENDBUFFERSIZE);
-	int bytes_received = recv(socket_client, request, SENDBUFFERSIZE, 0);
-	printf("Received %d bytes: \n", bytes_received);
-	printf("%.*s\n", bytes_received, request);      //the %.*s makes sure we print exactly as many chars as was received (regardless of null termination)
+	int killSwitch = 0;
 
-	printf("building response\n");
-	char buffer[SENDBUFFERSIZE];
-	memset(buffer, '\0', SENDBUFFERSIZE);
-	//char get[] = "GET\n";
-	char* firstWord = "";
-
-	firstWord = strtok(request, " ");
-
-	int switchNum = OperationNum(firstWord);
-
-
-	//here
-	char temp[100];
-	memset(temp, '\0', 100);
-	strncpy(temp, &request[7], 99);		//changed from 5 to 7 because of DELETE
-
-	char* newPost;
-	newPost = strtok(temp, "/");
-
-	char post[20];
-	memset(post, '\0', 20);
-
-	char author[20];
-	memset(author, '\0', 20);
-
-	char title[20];
-	memset(title, '\0', 20);
-
-	char topic[20];
-	memset(topic, '\0', 20);
-
-	int count = 1;
-	//here
-
-	switch (switchNum)
+	while (killSwitch == 0)
 	{
-	case 1:
-		//printf("The GET was called");
-		//GET /posts/ OR GET /posts/#
+		printf("Reading request...\n");
+		char request[SENDBUFFERSIZE];
+		memset(request, '\0', SENDBUFFERSIZE);
+		int bytes_received = recv(socket_client, request, SENDBUFFERSIZE, 0);
+		printf("Received %d bytes: \n", bytes_received);
+		printf("%.*s\n", bytes_received, request);      //the %.*s makes sure we print exactly as many chars as was received (regardless of null termination)
 
-		if (request[10] == ' ') //changed from newline // can change to [10] if i want uri to be localhost:8080/posts
-		{
-			printf("Print all posts\n");
-			//call get function to print all
-			getAll(buffer, postings);
-			//createPayload(buffer);
-		}
-		else
-		{
-			char number[10] = "";
+		printf("building response\n");
+		char buffer[SENDBUFFERSIZE];
+		memset(buffer, '\0', SENDBUFFERSIZE);
+		//char get[] = "GET\n";
+		char* firstWord = "";
 
-			char num[2];
-			memset(num, '\0', 1);
-			strncpy(num, &request[11], 2);
+		firstWord = strtok(request, " ");
 
-			int postNum = atoi(num);
+		int switchNum = OperationNum(firstWord);
 
-			getOne(buffer, postings[postNum - 1]);
-			//printf("This is the post number you want %d\n", postNum);
-			//call get function for post number
 
-			//createPayload(buffer);
-		}
-		break;
-	case 2:
-		printf("The POST was called");
-		//POST /posts/author/title/
-
-		/*char temp[100];
+		//here
+		char temp[100];
 		memset(temp, '\0', 100);
-		strncpy(temp, &request[5], 99);
+		strncpy(temp, &request[7], 99);		//changed from 5 to 7 because of DELETE
 
 		char* newPost;
 		newPost = strtok(temp, "/");
-		
-		char author[20];
-		memset(author, '\0', 20);
-
-		char title[20];
-		memset(title, '\0', 20);
-
-		char topic[20];
-		memset(topic, '\0', 20);*/
-
-
-		//int count = 1;
-		while(newPost != NULL)
-		{
-			newPost = strtok(NULL, "/");
-			if (count == 1)
-			{				
-				strcpy(author, newPost);
-				count++;
-			}
-			else if (count == 2)
-			{				
-				strcpy(topic, newPost);
-				count++;
-			}
-			else if (count == 3)
-			{				
-				strcpy(title, newPost);
-				count++;
-			}
-			else
-			{
-				break;
-			}			
-			
-		}
-
-		postOne(author, topic, title, postings);
-
-		//printf("\nAuthor: %s, Topic: %s, Title: %s\n", author, topic, title);
-
-		//createPayload(buffer);
-		//getOne(buffer, postings[1]);
-		getAll(buffer, postings);
-		
-		break;
-	case 3:
-		printf("The PUT was called");
-		//PUT /posts/#/author/title/topic/
-
-		/*char tempPut[100];
-		memset(tempPut, '\0', 100);
-		strncpy(tempPut, &request[5], 99);
-
-		char* newPost;
-		newPost = strtok(tempPut, "/");
 
 		char post[20];
 		memset(post, '\0', 20);
@@ -332,103 +224,221 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 		memset(title, '\0', 20);
 
 		char topic[20];
-		memset(topic, '\0', 20);*/
+		memset(topic, '\0', 20);
 
+		int count = 1;
+		//here
 
-		//int count = 1;
-		while (newPost != NULL)
+		switch (switchNum)
 		{
-			newPost = strtok(NULL, "/");
-			if (count == 1)
+		case 1:
+			//printf("The GET was called");
+			//GET /posts/ OR GET /posts/#
+
+			if (request[10] == ' ') //changed from newline // can change to [10] if i want uri to be localhost:8080/posts
 			{
-				strcpy(post, newPost);
-				count++;
-			}
-			else if (count == 2)
-			{
-				strcpy(author, newPost);
-				count++;
-			}
-			else if (count == 3)
-			{
-				strcpy(topic, newPost);
-				count++;
-			}
-			else if (count == 4)
-			{
-				strcpy(title, newPost);
-				count++;
+				printf("Print all posts\n");
+				//call get function to print all
+				getAll(buffer, postings);
+				//createPayload(buffer);
 			}
 			else
 			{
-				break;
+				char number[10] = "";
+
+				char num[2];
+				memset(num, '\0', 1);
+				strncpy(num, &request[11], 2);
+
+				int postNum = atoi(num);
+
+				getOne(buffer, postings[postNum - 1]);
+				//printf("This is the post number you want %d\n", postNum);
+				//call get function for post number
+
+				//createPayload(buffer);
 			}
+			break;
+		case 2:
+			printf("The POST was called");
+			//POST /posts/author/title/
+
+			/*char temp[100];
+			memset(temp, '\0', 100);
+			strncpy(temp, &request[5], 99);
+
+			char* newPost;
+			newPost = strtok(temp, "/");
+
+			char author[20];
+			memset(author, '\0', 20);
+
+			char title[20];
+			memset(title, '\0', 20);
+
+			char topic[20];
+			memset(topic, '\0', 20);*/
+
+
+			//int count = 1;
+			while (newPost != NULL)
+			{
+				newPost = strtok(NULL, "/");
+				if (count == 1)
+				{
+					strcpy(author, newPost);
+					count++;
+				}
+				else if (count == 2)
+				{
+					strcpy(topic, newPost);
+					count++;
+				}
+				else if (count == 3)
+				{
+					strcpy(title, newPost);
+					count++;
+				}
+				else
+				{
+					break;
+				}
+
+			}
+
+			postOne(author, topic, title, postings);
+
+			//printf("\nAuthor: %s, Topic: %s, Title: %s\n", author, topic, title);
+
+			//createPayload(buffer);
+			//getOne(buffer, postings[1]);
+			getAll(buffer, postings);
+
+			break;
+		case 3:
+			printf("The PUT was called");
+			//PUT /posts/#/author/title/topic/
+
+			/*char tempPut[100];
+			memset(tempPut, '\0', 100);
+			strncpy(tempPut, &request[5], 99);
+
+			char* newPost;
+			newPost = strtok(tempPut, "/");
+
+			char post[20];
+			memset(post, '\0', 20);
+
+			char author[20];
+			memset(author, '\0', 20);
+
+			char title[20];
+			memset(title, '\0', 20);
+
+			char topic[20];
+			memset(topic, '\0', 20);*/
+
+
+			//int count = 1;
+			while (newPost != NULL)
+			{
+				newPost = strtok(NULL, "/");
+				if (count == 1)
+				{
+					strcpy(post, newPost);
+					count++;
+				}
+				else if (count == 2)
+				{
+					strcpy(author, newPost);
+					count++;
+				}
+				else if (count == 3)
+				{
+					strcpy(topic, newPost);
+					count++;
+				}
+				else if (count == 4)
+				{
+					strcpy(title, newPost);
+					count++;
+				}
+				else
+				{
+					break;
+				}
+
+			}
+
+			//if the variable doesnt equal "unchanged", then set the new value
+
+			//printf("\nPost: %d Author: %s, Topic: %s, Title: %s\n",atoi(post), author, topic, title);
+
+			//createPayload(buffer);
+			int number = atoi(post);
+			putOne(author, topic, title, &postings[number - 1]);
+
+			getAll(buffer, postings);
+
+			break;
+		case 4:
+			printf("The DELETE was called");
+			//DELETE /posts/#/
+
+			while (newPost != NULL)
+			{
+				newPost = strtok(NULL, "/");
+				if (count == 1)
+				{
+					strcpy(post, newPost);
+					count++;
+				}
+				else
+				{
+					break;
+				}
+
+			}
+
+			//printf("\nPost: %d\n", atoi(post));
+
+			//createPayload(buffer);
+
+			int deleteNum = atoi(post) - 1;
+			deleteOne(postings, deleteNum);
+
+			getAll(buffer, postings);
+
+			break;
+		case 5:
+
+			killSwitch = 1;
+			break;
+		default:
+
+			printf("default");
+			break;
 
 		}
 
-		//if the variable doesnt equal "unchanged", then set the new value
+		/*char* get = "GET\n";
 
-		//printf("\nPost: %d Author: %s, Topic: %s, Title: %s\n",atoi(post), author, topic, title);
-
-		//createPayload(buffer);
-		int number = atoi( post);
-		putOne(author, topic, title, &postings[number - 1]);
-
-		getAll(buffer, postings);
-
-		break;
-	case 4:
-		printf("The DELETE was called");
-		//DELETE /posts/#/
-
-		while (newPost != NULL)
+		if (strcmp(request, get) == 0)
 		{
-			newPost = strtok(NULL, "/");
-			if (count == 1)
-			{
-				strcpy(post, newPost);
-				count++;
-			}
-			else
-			{
-				break;
-			}
-
+			createGetPayload(buffer);
 		}
+		else
+		{
+			createPayload(buffer);
+		}*/
 
-		//printf("\nPost: %d\n", atoi(post));
 
-		//createPayload(buffer);
 
-		int deleteNum = atoi(post) - 1;
-		deleteOne(postings, deleteNum);
+		printf("Sending response...\n");
+		int bytes_sent = send(socket_client, buffer, strlen(buffer), 0);
+		printf("Sent %d of %d bytes.\n", bytes_sent, (int)strlen(buffer));
 
-		getAll(buffer, postings);
-
-		break;
-	default:
-	
-		printf("default");
-		break;
-	
 	}
-	
-	/*char* get = "GET\n";
-
-	if (strcmp(request, get) == 0)
-	{
-		createGetPayload(buffer);
-	}
-	else
-	{
-		createPayload(buffer);
-	}*/
-
-
-
-	printf("Sending response...\n");
-	int bytes_sent = send(socket_client, buffer, strlen(buffer), 0);
-	printf("Sent %d of %d bytes.\n", bytes_sent, (int)strlen(buffer));
 }
 
 void RecvUDPRequestAndSendResponse(SOCKET listen_socket)
@@ -528,6 +538,10 @@ int OperationNum(char firstword[])
 	else if (strcmp(firstword, "DELETE") == 0)
 	{
 		result = 4;
+	}
+	else if (strcmp(firstword, "QUIT") == 0)
+	{
+		result = 5;
 	}
 	else
 	{
