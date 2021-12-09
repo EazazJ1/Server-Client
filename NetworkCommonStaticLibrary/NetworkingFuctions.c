@@ -497,11 +497,13 @@ void getAll(char* buffer, LIST postings[])
 
 	for (int i = 0; i < 10; i++)
 	{
-		
-		char tempString[SENDBUFFERSIZE];
-		memset(tempString, '\0', SENDBUFFERSIZE);
-		snprintf(tempString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
-		strcat(buffer, tempString);
+		if (postings[i].set == true)
+		{
+			char tempString[SENDBUFFERSIZE];
+			memset(tempString, '\0', SENDBUFFERSIZE);
+			snprintf(tempString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+			strcat(buffer, tempString);
+		}		
 		
 	}
 

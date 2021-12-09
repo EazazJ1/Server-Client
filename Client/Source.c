@@ -124,9 +124,6 @@ int main(void)
 			printf("%s", buffer);
 			break;
 		}
-
-		
-
 	}
 
 	printf("Closing the connection...\n");
