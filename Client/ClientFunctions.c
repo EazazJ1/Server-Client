@@ -97,13 +97,18 @@ void getSinglePostInputandCall(char* message)
 	while (check == 0)
 	{
 		scanf_s("%*c");
-		printf("Please enter the post number you would like to get between 1 and 10:");
+		printf("Please enter the post number you would like to get between 1 and 10 OR enter 0 to go back to meuu: ");
 
 		if (scanf("%d", &postNum))
 		{
 			if (postNum > 0 && postNum < 11)
 			{
 				getOnePost(message, postNum);
+				check = 1;
+			}
+			if(postNum == 0)
+			{
+				exitMenuandCall(message);
 				check = 1;
 			}
 		}
@@ -214,7 +219,7 @@ void putInputandCall(char* message)
 	while (check == 0)
 	{
 		scanf_s("%*c");
-		printf("What post number would you like to change?");
+		printf("What post number would you like to change between 1-10? OR enter 0 to go back to menu: ");
 		if (scanf("%d", &postNum))
 		{
 			if (postNum > 0 && postNum < 11)
@@ -225,7 +230,10 @@ void putInputandCall(char* message)
 			}
 			else if (postNum == 0)
 			{
-				break;
+				exitMenuandCall(message);
+				check = 1;
+				
+				//break;
 			}
 			else
 			{
@@ -244,7 +252,7 @@ void deleteInputandCall(char* message)
 	while (check == 0)
 	{
 		scanf_s("%*c");
-		printf("What post number would you like to delete?");
+		printf("What post number would you like to delete? OR enter 0 to go back to menu: ");
 		if (scanf("%d", &postNum))
 		{
 			if (postNum > 0 && postNum < 11)
@@ -255,7 +263,10 @@ void deleteInputandCall(char* message)
 			}
 			else if (postNum == 0)
 			{
-				break;
+				exitMenuandCall(message);
+				check = 1;
+				
+				//break;
 			}
 			else
 			{

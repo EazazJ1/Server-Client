@@ -49,6 +49,8 @@ int main(void)
 
 		int choice;
 
+		int menuExit = 0;
+
 		scanf_s("%d", &choice);
 		//printf("%d", choice);
 
@@ -78,11 +80,15 @@ int main(void)
 		case 1:
 
 			getAllPosts(message);
-
+			
 			break;
 		case 2:
 
 			getSinglePostInputandCall(message);
+			if (strcmp(message, "QUIT ") == 0)
+			{
+				menuExit = 1;
+			}
 
 			break;
 		case 3:
@@ -93,12 +99,18 @@ int main(void)
 		case 4:
 
 			putInputandCall(message);
-
+			if (strcmp(message, "QUIT ") == 0)
+			{
+				menuExit = 1;
+			}
 			break;
 		case 5:
 
 			deleteInputandCall(message);
-
+			if (strcmp(message, "QUIT ") == 0)
+			{
+				menuExit = 1;
+			}
 			break;
 		default:
 
@@ -107,23 +119,26 @@ int main(void)
 			break;
 		}
 
-
-		int sent = send(peer_socket, message, strlen(message), 0);
-		if (sent == 0)
+		if (menuExit == 0)
 		{
-			fprintf(stderr, "send failed\n");
-			exit(1);
-		}
+			int sent = send(peer_socket, message, strlen(message), 0);
+			if (sent == 0)
+			{
+				fprintf(stderr, "send failed\n");
+				exit(1);
+			}
 
-		//receive reply from server
-		char buffer[MAXBUFFER];
-		memset(buffer, '\0', MAXBUFFER);
+			//receive reply from server
+			char buffer[MAXBUFFER];
+			memset(buffer, '\0', MAXBUFFER);
 
-		while (recv(peer_socket, buffer, MAXBUFFER, 0) != 0)
-		{
-			printf("%s", buffer);
-			break;
+			while (recv(peer_socket, buffer, MAXBUFFER, 0) != 0)
+			{
+				printf("%s", buffer);
+				break;
+			}
 		}
+		
 	}
 
 	printf("Closing the connection...\n");
