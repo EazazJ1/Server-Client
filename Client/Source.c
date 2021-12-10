@@ -21,14 +21,35 @@ int main(void)
 	printf("Creating socket and connect...\n");
 	SOCKET peer_socket = CreateAndConnectRemoteSocket(peer_address);
 
-	//send initial 'greeting'
-	//char* message = "";
-
-
 	int killSwitch = 0;
 
 	while (killSwitch == 0)
 	{
+		
+		bool checkMenuInput = true;
+		int choice;
+
+		while (checkMenuInput)
+		{
+
+			printf("\nPick the option for the operation you would like to do:\n");
+			printf("0. EXIT\n1. Get all posts.\n2. Get post by filter. \n3. Get one post. \n4. Create a new post.\n5. Update a post.\n6. Delete a post.\n");
+
+			if (scanf_s("%d", &choice))
+			{
+				if (choice >= 0 && choice <= 6)
+				{
+					checkMenuInput = false;
+				}
+			}
+			else
+			{
+				scanf_s("%*c");
+				printf("\nWrong Input please try again.\n");
+				checkMenuInput = true;
+			}
+		}
+		
 		char message[1000];
 		memset(message, '\0', 1000);
 
@@ -44,28 +65,8 @@ int main(void)
 		int postNum;*/
 
 
-		printf("\nPick the option for the operation you would like to do:\n");
-		printf("0. EXIT\n1. Get all posts.\n2. Get post by filter. \n3. Get one post. \n4. Create a new post.\n5. Update a post.\n6. Delete a post.\n");
-
-		int choice;
-
+		
 		int menuExit = 0;
-
-		scanf_s("%d", &choice);
-		//printf("%d", choice);
-
-		/*if (scanf("%d", &choice))
-		{
-			if (choice >= 0 && choice <=6)
-			{
-
-
-
-			}
-		}*/
-
-
-		//int hi = 0;
 
 		switch (choice)
 		{
