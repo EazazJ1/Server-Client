@@ -28,6 +28,61 @@ void getAllPosts(char* message)
 
 }
 
+void getFilter(char* message, char* author, char* topic, char* title)
+{
+	char defaultMessage[1000] = { "GET /posts?" };
+	int count = 0;
+
+	if (strcmp(author, "na") != 0)
+	{
+		strcat(defaultMessage, "author=");
+		strcat(defaultMessage, author);
+		count++;
+	}
+
+	if (strcmp(topic, "na") != 0)
+	{
+		
+		if (count == 0)
+		{
+			strcat(defaultMessage, "topic=");
+			strcat(defaultMessage, topic);
+			count++;
+		}
+		else
+		{
+			strcat(defaultMessage, "&");
+			strcat(defaultMessage, "topic=");
+			strcat(defaultMessage, topic);
+			count++;
+		}
+		
+		
+	}
+
+	if (strcmp(title, "na") != 0)
+	{
+		
+		if (count == 0)
+		{
+			strcat(defaultMessage, "title=");
+			strcat(defaultMessage, title);
+			count++;
+		}
+		else
+		{
+			strcat(defaultMessage, "&");
+			strcat(defaultMessage, "title=");
+			strcat(defaultMessage, title);
+			count++;
+		}
+
+	}
+
+	strcat(message, defaultMessage);
+
+}
+
 void addPost(char* message, char* author, char* topic, char* title) 
 {
 	char defaultMessage[1000] = { "POST /posts/" };
@@ -274,4 +329,85 @@ void deleteInputandCall(char* message)
 			}
 		}
 	}
+}
+
+void getFilterInputandCall(char* message)
+{
+	char author[100];
+	memset(author, '\0', 100);
+
+	char topic[100];
+	memset(topic, '\0', 100);
+
+	char title[100];
+	memset(title, '\0', 100);
+
+	int check = 0;
+	int postNum;
+
+	scanf_s("%*c");
+	printf("Would like to filter by the author [y/n]? ");
+	char authorchar;
+	authorchar = tolower(getc(stdin));
+	if (authorchar == 'y')
+	{
+		scanf_s("%*c");
+		printf("Please enter the name of the author: ");
+		scanf("%[^\n]s", author);
+	}
+	else if (authorchar == 'n')
+	{
+		//scanf_s("%*c");
+		strcpy(author, "na");
+	}
+	else
+	{
+		scanf_s("%*c");
+		printf("Wrong input. The author name will NOT be changed.");
+	}
+
+	scanf_s("%*c");
+	printf("Would like to filter by the topic [y/n]? ");
+	char topicchar;
+	topicchar = tolower(getc(stdin));
+	if (topicchar == 'y')
+	{
+		scanf_s("%*c");
+		printf("Please enter the name of the topic: ");
+		scanf("%[^\n]s", topic);
+	}
+	else if (topicchar == 'n')
+	{
+		//scanf_s("%*c");
+		strcpy(topic, "na");
+	}
+	else
+	{
+		scanf_s("%*c");
+		printf("Wrong input. The topic will NOT be changed.");
+	}
+
+	scanf_s("%*c");
+	printf("Would like to filter the title [y/n]? ");
+	char titlechar;
+	titlechar = tolower(getc(stdin));
+	if (titlechar == 'y')
+	{
+		scanf_s("%*c");
+		printf("Please enter the name of the title: ");
+		scanf("%[^\n]s", title);
+	}
+	else if (titlechar == 'n')
+	{
+		//scanf_s("%*c");
+		strcpy(title, "na");
+	}
+	else
+	{
+		scanf_s("%*c");
+		printf("Wrong input. The title will NOT be changed.");
+	}
+
+	getFilter(message, author, topic, title);
+	
 }

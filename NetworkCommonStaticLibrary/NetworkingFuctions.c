@@ -175,7 +175,7 @@ void createGetPayload(char* buffer)
 		"HTTP/1.1 200 OK\r\n"
 		"Connection: close\r\n"
 		"Content-Type: text/plain\r\n\r\n";
-		
+
 
 
 
@@ -198,7 +198,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 		printf("building response\n");
 		char buffer[SENDBUFFERSIZE];
 		memset(buffer, '\0', SENDBUFFERSIZE);
-		
+
 		char* firstWord = "";
 		firstWord = strtok(request, " ");
 
@@ -209,8 +209,87 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 		memset(temp, '\0', 100);
 		strncpy(temp, &request[7], 99);		//changed from 5 to 7 because of DELETE
 
+		//parseFilter(buffer, request, postings);
+		// 
+		// 
+		//get filter stuff
+		/*char delim[] = "= &";
+
+		char filterString[100];
+		memset(filterString, '\0', 100);
+
+		strncpy(filterString, &request[11], 99);
+
+		char* filter;
+		filter = strtok(filterString, delim);
+
+
+		char filterOne[100];
+		memset(filterOne, '\0', 99);
+		char filterTwo[100];
+		memset(filterTwo, '\0', 99);
+		char filterThree[100];
+		memset(filterThree, '\0', 99);
+		char filterOneData[100];
+		memset(filterOneData, '\0', 99);
+		char filterTwoData[100];
+		memset(filterTwoData, '\0', 99);
+		char filterThreeData[100];
+		memset(filterThreeData, '\0', 99);
+
+		int myNum = 1;
+
+		strcpy(filterOne, filter);
+
+		while (filter != NULL)
+		{
+			filter = strtok(NULL, delim);
+
+			if (filter == NULL)
+			{
+				break;
+			}
+
+			if (myNum == 1)
+			{
+				strcpy(filterOneData, filter);
+				myNum++;
+			}
+			else if (myNum == 2)
+			{
+				strcpy(filterTwo, filter);
+				myNum++;
+			}
+			else if (myNum == 3)
+			{
+				strcpy(filterTwoData, filter);
+				myNum++;
+			}
+			else if (myNum == 4)
+			{
+				strcpy(filterThree, filter);
+				myNum++;
+			}
+			else if (myNum == 5)
+			{
+				strcpy(filterThreeData, filter);
+				myNum++;
+			}
+			else
+			{
+				break;
+			}
+
+		}*/
+
+		//printf("\n\n\n%s\n%s\n%s\n%s\n%s\n%s\n\n\n", filterOne, filterOneData, filterTwo, filterTwoData, filterThree, filterThreeData);
+
+
+		//get filter stuff^^
+
 		char* newPost;
 		newPost = strtok(temp, "/");
+
 
 		char post[20];
 		memset(post, '\0', 20);
@@ -233,8 +312,12 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			//GET /posts OR GET /posts/#
 
 			if (request[10] == ' ') //changed from newline // can change to [10] if i want uri to be localhost:8080/posts
-			{				
-				getAll(buffer, postings);				
+			{
+				getAll(buffer, postings);
+			}
+			else if (request[10] == '?')
+			{
+				parseFilter(buffer, request, postings);
 			}
 			else
 			{
@@ -247,11 +330,13 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 				int postNum = atoi(num);
 
 				getOne(buffer, postings[postNum - 1]);
-				
+
 			}
 			break;
 		case 2:
-						
+
+
+
 			while (newPost != NULL)
 			{
 				newPost = strtok(NULL, "/");
@@ -277,13 +362,13 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 
 			}
 
-			postOne(buffer,author, topic, title, postings);
+			postOne(buffer, author, topic, title, postings);
 
 			//getAll(buffer, postings);
 
 			break;
 		case 3:
-			
+
 			while (newPost != NULL)
 			{
 				newPost = strtok(NULL, "/");
@@ -322,7 +407,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 
 			break;
 		case 4:
-			
+
 			//DELETE /posts/#/
 
 			while (newPost != NULL)
@@ -415,30 +500,30 @@ void parse(char buffer[])
 	char delimQuestion = "?";
 
 
-	
-		char* firstWord = "";
 
-		firstWord = strtok(buffer, " ");
+	char* firstWord = "";
 
-		char* get = "GET";
+	firstWord = strtok(buffer, " ");
 
-		if (strcmp(firstWord, get) == 0)
-		{
-			createGetPayload(buffer);
-		}
-		else
-		{
-			createPayload(buffer);
-		}
+	char* get = "GET";
 
-		//if GET then check to see if there is a number, if no number then display all
+	if (strcmp(firstWord, get) == 0)
+	{
+		createGetPayload(buffer);
+	}
+	else
+	{
+		createPayload(buffer);
+	}
 
-		//if POST then check for the inputs
+	//if GET then check to see if there is a number, if no number then display all
 
-		//if PUT then check for the postNumber and the input
+	//if POST then check for the inputs
 
-		//if delete then check for the postNumber
-	
+	//if PUT then check for the postNumber and the input
+
+	//if delete then check for the postNumber
+
 }
 
 int OperationNum(char firstword[])
@@ -448,7 +533,7 @@ int OperationNum(char firstword[])
 	if (strcmp(firstword, "GET") == 0)
 	{
 		result = 1;
-		
+
 	}
 	else if (strcmp(firstword, "POST") == 0)
 	{
@@ -492,7 +577,7 @@ void getAll(char* buffer, LIST postings[])
 		"HTTP/1.1 200 OK\r\n"
 		"Connection: close\r\n"
 		"Content-Type: text/plain\r\n\r\n";
-		
+
 	strcat(buffer, response);
 
 	for (int i = 0; i < 10; i++)
@@ -503,16 +588,225 @@ void getAll(char* buffer, LIST postings[])
 			memset(tempString, '\0', SENDBUFFERSIZE);
 			snprintf(tempString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 			strcat(buffer, tempString);
-		}		
-		
+		}
+
 	}
 
 
 }
+void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[])
+{
+	const char* response =
+		"HTTP/1.1 200 OK\r\n"
+		"Connection: close\r\n"
+		"Content-Type: text/plain\r\n\r\n";
+
+	strcat(buffer, response);
+
+	char wantedString[SENDBUFFERSIZE];
+	memset(wantedString, '\0', SENDBUFFERSIZE);
+
+	if (strcmp(str[0], "author") == 0 && strcmp(str[2], "topic") == 0 && strcmp(str[4], "title") == 0)
+	{
+		printf("All 3");
+
+		for (int i = 0; i < MAXPOSTINGS; i++)
+		{
+			if (strcmp(str[1], postings[i].author) == 0)
+			{
+				if (strcmp(str[3], postings[i].topic) == 0)
+				{
+					if (strcmp(str[5], postings[i].title) == 0)
+					{
+						snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+						strcat(buffer, wantedString);
+					}
+				}
+			}
+		}
+	}
+	else if (strcmp(str[0], "topic") == 0 && strcmp(str[2], "title") == 0 && strcmp(str[4], "") == 0)
+	{
+		printf("topic and title");
+
+		for (int i = 0; i < MAXPOSTINGS; i++)
+		{
+			if (strcmp(str[1], postings[i].topic) == 0)
+			{
+				if (strcmp(str[3], postings[i].title) == 0)
+				{
+					snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+					strcat(buffer, wantedString);
+				}
+			}
+		}
+	}
+	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "topic") == 0 && strcmp(str[4], "") == 0)
+	{
+		printf("author and topic");
+
+		for (int i = 0; i < MAXPOSTINGS; i++)
+		{
+			if (strcmp(str[1], postings[i].author) == 0)
+			{
+				if (strcmp(str[3], postings[i].topic) == 0)
+				{
+					snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+					strcat(buffer, wantedString);
+				}
+			}
+		}
+	}
+	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "title") == 0 && strcmp(str[4], "") == 0)
+	{
+		printf("author and title");
+
+		for (int i = 0; i < MAXPOSTINGS; i++)
+		{
+			if (strcmp(str[1], postings[i].author) == 0)
+			{
+				if (strcmp(str[3], postings[i].title) == 0)
+				{
+					snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+					strcat(buffer, wantedString);
+				}
+			}
+		}
+	}
+	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)
+	{
+		printf("Only author");
+
+		for (int i = 0; i < MAXPOSTINGS; i++)
+		{
+			if (strcmp(str[1], postings[i].author) == 0)
+			{
+				snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+				strcat(buffer, wantedString);
+			}
+		}
+	}
+	else if (strcmp(str[0], "topic") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)
+	{
+		printf("Only topic");
+
+		for (int i = 0; i < MAXPOSTINGS; i++)
+		{
+			if (strcmp(str[1], postings[i].topic) == 0)
+			{
+				snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+				strcat(buffer, wantedString);
+			}
+		}
+	}
+	else if (strcmp(str[0], "title") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)
+	{
+		printf("Only title");
+
+		for (int i = 0; i < MAXPOSTINGS; i++)
+		{
+			if (strcmp(str[1], postings[i].title) == 0)
+			{
+				snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
+				strcat(buffer, wantedString);
+			}
+		}
+	}
+	else
+	{
+		printf("post not found");
+	}
+
+
+
+}
+
+void parseFilter(char* buffer, char* request, LIST postings[])
+{
+	char delim[] = "= &";
+
+	char filterString[100];
+	memset(filterString, '\0', 100);
+
+	strncpy(filterString, &request[11], 99);
+
+	char* filter;
+	filter = strtok(filterString, delim);
+
+	//char* str[6] = {"","","","","",""};
+	char* str[6];
+
+
+	for (int i = 0; i < 6; i++)
+	{
+		str[i] = calloc((strlen(filter) + 1), *filter);
+	}
+	int myNum = 1;
+	//str[0] = calloc((strlen(filter) + 1), *filter);
+	//str[0] = malloc(strlen(filter) + 1);
+	strcpy(str[0], filter);
+
+	while (filter != NULL)
+	{
+		filter = strtok(NULL, delim);
+
+		if (filter == NULL)
+		{
+			break;
+		}
+
+		if (myNum == 1)
+		{
+			//str[1] = malloc(strlen(filter) + 1);
+			//str[1] = calloc((strlen(filter) + 1), *filter);
+			strcpy(str[1], filter);
+			myNum++;
+		}
+		else if (myNum == 2)
+		{
+			//str[2] = malloc(strlen(filter) + 1);
+			//str[2] = calloc((strlen(filter) + 1), *filter);
+			strcpy(str[2], filter);
+			myNum++;
+		}
+		else if (myNum == 3)
+		{
+			//str[3] = malloc(strlen(filter) + 1);
+			//str[3] = calloc((strlen(filter) + 1), *filter);
+			strcpy(str[3], filter);
+			myNum++;
+		}
+		else if (myNum == 4)
+		{
+			//str[4] = malloc(strlen(filter) + 1);
+			//str[4] = calloc((strlen(filter) + 1), *filter);
+			strcpy(str[4], filter);
+			myNum++;
+		}
+		else if (myNum == 5)
+		{
+			//str[5] = malloc(strlen(filter) + 1);
+			//str[5] = calloc((strlen(filter) + 1), *filter);
+			strcpy(str[5], filter);
+			myNum++;
+		}
+		else
+		{
+			break;
+		}
+
+	}
+
+	//printf("\n\n\n%s\n%s\n%s\n%s\n%s\n%s\n\n\n", str[0], str[1], str[2], str[3], str[4], str[5]);
+
+	getFilterStrings(buffer, request, postings, str);
+
+	free(*str);
+}
 
 void getOne(char* buffer, LIST postings)
 {
-	
+
 	const char* response =
 		"HTTP/1.1 200 OK\r\n"
 		"Connection: close\r\n"
@@ -521,12 +815,12 @@ void getOne(char* buffer, LIST postings)
 	strcat(buffer, response);
 	char tempStringTwo[SENDBUFFERSIZE];
 	memset(tempStringTwo, '\0', SENDBUFFERSIZE);
-	
+
 	snprintf(tempStringTwo, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings.postNum, postings.author, postings.topic, postings.title);
 
 	strcat(buffer, tempStringTwo);
 
-	
+
 }
 
 void postOne(char* buffer, char* author, char* topic, char* title, LIST postings[])
@@ -555,8 +849,8 @@ void postOne(char* buffer, char* author, char* topic, char* title, LIST postings
 		"\nHTTP/1.1 200 CREATED\r\n"
 		"Connection: close\r\n"
 		"Content-Type: text/plain\r\n\r\n";
-	
-	
+
+
 	strcat(buffer, response);
 
 }

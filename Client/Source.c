@@ -45,7 +45,7 @@ int main(void)
 
 
 		printf("\nPick the option for the operation you would like to do:\n");
-		printf("0. EXIT\n1. Get all posts.\n2. Get one post.\n3. Create a new post.\n4. Update a post.\n5. Delete a post.\n");
+		printf("0. EXIT\n1. Get all posts.\n2. Get post by filter. \n3. Get one post. \n4. Create a new post.\n5. Update a post.\n6. Delete a post.\n");
 
 		int choice;
 
@@ -84,6 +84,11 @@ int main(void)
 			break;
 		case 2:
 
+			getFilterInputandCall(message);
+
+			break;
+		case 3:
+
 			getSinglePostInputandCall(message);
 			if (strcmp(message, "QUIT ") == 0)
 			{
@@ -91,12 +96,12 @@ int main(void)
 			}
 
 			break;
-		case 3:
+		case 4:
 
 			postInputandCall(message);
 
 			break;
-		case 4:
+		case 5:
 
 			putInputandCall(message);
 			if (strcmp(message, "QUIT ") == 0)
@@ -104,7 +109,7 @@ int main(void)
 				menuExit = 1;
 			}
 			break;
-		case 5:
+		case 6:
 
 			deleteInputandCall(message);
 			if (strcmp(message, "QUIT ") == 0)

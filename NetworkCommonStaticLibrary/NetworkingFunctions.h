@@ -18,6 +18,7 @@
 #define SENDBUFFERSIZE	1000
 #define MAXLISTENERS		10
 #define MAXLEN 50
+#define MAXPOSTINGS 10
 
 typedef struct list {
 	int postNum;
@@ -55,6 +56,8 @@ void parse(char buffer[]);
 void InitList(LIST postings[]);
 
 void getAll(char* buffer, LIST postings[]);
+void parseFilter(char* buffer, char* request, LIST postings[]);
+void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[]);
 void getOne(char* buffer, LIST postings);
 
 void postOne(char* buffer, char* author, char* topic, char* title, LIST postings[]);
