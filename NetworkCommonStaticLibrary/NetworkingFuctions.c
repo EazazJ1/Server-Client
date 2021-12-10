@@ -335,8 +335,6 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			break;
 		case 2:
 
-
-
 			while (newPost != NULL)
 			{
 				newPost = strtok(NULL, "/");
@@ -359,12 +357,9 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 				{
 					break;
 				}
-
 			}
 
 			postOne(buffer, author, topic, title, postings);
-
-			//getAll(buffer, postings);
 
 			break;
 		case 3:
@@ -396,18 +391,14 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 				{
 					break;
 				}
-
 			}
 
 			int number = atoi(post);
 
 			putOne(buffer, author, topic, title, &postings[number - 1]);
 
-			//getAll(buffer, postings);
-
 			break;
 		case 4:
-
 			//DELETE /posts/#/
 
 			while (newPost != NULL)
@@ -422,13 +413,10 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 				{
 					break;
 				}
-
 			}
 
 			int deleteNum = atoi(post) - 1;
 			deleteOne(buffer, postings, deleteNum);
-
-			//getAll(buffer, postings);
 
 			break;
 		case 5:
@@ -439,13 +427,11 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 
 			printf("default");
 			break;
-
 		}
 
 		printf("Sending response...\n");
 		int bytes_sent = send(socket_client, buffer, strlen(buffer), 0);
 		printf("Sent %d of %d bytes.\n", bytes_sent, (int)strlen(buffer));
-
 	}
 }
 

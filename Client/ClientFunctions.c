@@ -79,7 +79,16 @@ void getFilter(char* message, char* author, char* topic, char* title)
 
 	}
 
-	strcat(message, defaultMessage);
+	if (count == 0)
+	{
+		exitMenuandCall(message);
+	}
+	else
+	{
+		strcat(message, defaultMessage);
+	}
+
+	
 
 }
 

@@ -86,6 +86,10 @@ int main(void)
 		case 2:
 
 			getFilterInputandCall(message);
+			if (strcmp(message, "QUIT ") == 0)
+			{
+				menuExit = 1;
+			}
 
 			break;
 		case 3:
