@@ -1,5 +1,12 @@
-// cscn72020f21 - a new and improved (using library v2) tcp server.
-// steveh - nov 2021
+//CSCN72020-F21
+//Assignment 3
+//
+//Eazaz Jakda
+//
+//December 10. 2021
+//
+
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
@@ -19,27 +26,7 @@ int main(void)
 
     load(postings);
     
-    //InitList(postings);
-
-    //strcpy(postings[0].author, "eazaz");
-    //strcpy(postings[0].topic, "code");
-    //strcpy(postings[0].title, "strings");
-    //postings[0].set = true;
-
-    //strcpy(postings[1].author, "maaz");
-    //strcpy(postings[1].topic, "plumbing");
-    //strcpy(postings[1].title, "cut");
-    //postings[1].set = true;
-
-    //strcpy(postings[2].author, "mubi");
-    //strcpy(postings[2].topic, "law");
-    //strcpy(postings[2].title, "family");
-    //postings[2].set = true;
-
-    //strcpy(postings[3].author, "name");
-    //strcpy(postings[3].topic, "topic");
-    //strcpy(postings[3].title, "title");
-    //postings[3].set = true;
+    //InitList(postings);           //To set the list of posting to nothing
     
     InitializeWindowsSockets();
 

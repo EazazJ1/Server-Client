@@ -1,5 +1,12 @@
-//cscn72020f21 - simple network client to attach to our simple time server
-// steveh - nov 2021
+//CSCN72020-F21
+//Assignment 3
+//
+//Eazaz Jakda
+//
+//December 10. 2021
+//
+
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "NetworkingFunctions.h"

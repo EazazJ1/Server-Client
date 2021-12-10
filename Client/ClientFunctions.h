@@ -28,3 +28,5 @@ void postInputandCall(char* message);
 void putInputandCall(char* message);
 
 void deleteInputandCall(char* message);
+
+void getFilterInputandCall(char* message);

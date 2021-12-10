@@ -19,6 +19,7 @@
 #define MAXLISTENERS		10
 #define MAXLEN 50
 #define MAXPOSTINGS 10
+#define MAXSTRINGLEN 100
 
 typedef struct list {
 	int postNum;
@@ -48,8 +49,6 @@ void RecvUDPRequestAndSendResponse(SOCKET);
 struct addrinfo* ConfigureRemoteAddress(char*, char*, PROTOCOL);
 SOCKET CreateAndConnectRemoteSocket(struct addrinfo*);
 
-void parse(char buffer[]);
-
 
 
 
@@ -65,5 +64,8 @@ void postOne(char* buffer, char* author, char* topic, char* title, LIST postings
 void putOne(char* buffer, char* author, char* topic, char* title, LIST* postings);
 
 void deleteOne(char* buffer, LIST postings[], int num);
+
+int OperationNum(char firstword[]);
+
 
 

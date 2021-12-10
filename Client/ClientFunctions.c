@@ -161,7 +161,7 @@ void getSinglePostInputandCall(char* message)
 	while (check == 0)
 	{
 		scanf_s("%*c");
-		printf("Please enter the post number you would like to get between 1 and 10 OR enter 0 to go back to meuu: ");
+		printf("Please enter the post number you would like to get between 1 and 10 OR enter 0 to go back to menu: ");
 
 		if (scanf("%d", &postNum))
 		{
@@ -224,7 +224,7 @@ void putInputandCall(char* message)
 	int postNum;
 
 	scanf_s("%*c");
-	printf("Would like to change the author [y/n]? ");
+	printf("Would you like to change the author [y/n]? ");
 	char authorchar;
 	authorchar = tolower(getc(stdin));
 	if (authorchar == 'y')
@@ -239,11 +239,12 @@ void putInputandCall(char* message)
 	}
 	else
 	{
-		printf("Wrong input. The author name will NOT be changed.");
+		printf("Wrong input. The author name will NOT be changed.\n");
+		strcpy(author, "unchanged");
 	}
 
 	scanf_s("%*c");
-	printf("Would like to change the topic [y/n]? ");
+	printf("Would you like to change the topic [y/n]? ");
 	char topicchar;
 	topicchar = tolower(getc(stdin));
 	if (topicchar == 'y')
@@ -258,11 +259,12 @@ void putInputandCall(char* message)
 	}
 	else
 	{
-		printf("Wrong input. The topic will NOT be changed.");
+		printf("Wrong input. The topic will NOT be changed.\n");
+		strcpy(topic, "unchanged");
 	}
 
 	scanf_s("%*c");
-	printf("Would like to change the title [y/n]? ");
+	printf("Would you like to change the title [y/n]? ");
 	char titlechar;
 	titlechar = tolower(getc(stdin));
 	if (titlechar == 'y')
@@ -277,7 +279,8 @@ void putInputandCall(char* message)
 	}
 	else
 	{
-		printf("Wrong input. The title will NOT be changed.");
+		printf("Wrong input. The title will NOT be changed.\n");
+		strcpy(title, "unchanged");
 	}
 
 	while (check == 0)
@@ -355,7 +358,7 @@ void getFilterInputandCall(char* message)
 	int postNum;
 
 	scanf_s("%*c");
-	printf("Would like to filter by the author [y/n]? ");
+	printf("Would you like to filter by the author [y/n]? ");
 	char authorchar;
 	authorchar = tolower(getc(stdin));
 	if (authorchar == 'y')
@@ -371,12 +374,13 @@ void getFilterInputandCall(char* message)
 	}
 	else
 	{
-		scanf_s("%*c");
-		printf("Wrong input. The author name will NOT be changed.");
+		//scanf_s("%*c");
+		printf("Wrong input. The author name will NOT be changed.\n");
+		strcpy(author, "na");
 	}
 
 	scanf_s("%*c");
-	printf("Would like to filter by the topic [y/n]? ");
+	printf("Would you like to filter by the topic [y/n]? ");
 	char topicchar;
 	topicchar = tolower(getc(stdin));
 	if (topicchar == 'y')
@@ -392,12 +396,13 @@ void getFilterInputandCall(char* message)
 	}
 	else
 	{
-		scanf_s("%*c");
-		printf("Wrong input. The topic will NOT be changed.");
+		//scanf_s("%*c");
+		printf("Wrong input. The topic will NOT be changed.\n");
+		strcpy(topic, "na");
 	}
 
 	scanf_s("%*c");
-	printf("Would like to filter the title [y/n]? ");
+	printf("Would you like to filter the title [y/n]? ");
 	char titlechar;
 	titlechar = tolower(getc(stdin));
 	if (titlechar == 'y')
@@ -413,8 +418,9 @@ void getFilterInputandCall(char* message)
 	}
 	else
 	{
-		scanf_s("%*c");
-		printf("Wrong input. The title will NOT be changed.");
+		//scanf_s("%*c");
+		printf("Wrong input. The title will NOT be changed.\n");
+		strcpy(title, "na");
 	}
 
 	getFilter(message, author, topic, title);
