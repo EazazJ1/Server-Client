@@ -1,5 +1,10 @@
-//cscn72020 - week12 - a simple example of a networked service.
-//steveh - nov 2021
+//CSCN72020-F21
+//Assignment 3
+//
+//Eazaz Jakda
+//
+//December 10. 2021
+//
 
 // to create a library for use in multiple projects, follow:
 //
@@ -173,7 +178,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 {
 	int killSwitch = 0;
 
-	while (killSwitch == 0)
+	while (killSwitch == 0)			//Main loop for server to keep running until EXIT
 	{
 		printf("Reading request...\n");
 		char request[SENDBUFFERSIZE];
@@ -210,22 +215,21 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 		char topic[20];
 		memset(topic, '\0', 20);
 
-		int count = 1;
-		
+		int count = 1;		
 
 		switch (switchNum)
 		{
-		case 1:
+		case 1:		//GET
 			//GET /posts OR GET /posts/# OR GET /posts?
-			if (request[10] == ' ') 
+			if (request[10] == ' ')		//GET collection
 			{
 				getAll(buffer, postings);
 			}
-			else if (request[10] == '?')
+			else if (request[10] == '?')		//GET by filter
 			{
 				parseFilter(buffer, request, postings);
 			}
-			else
+			else		//GET one
 			{			
 				char num[2];
 				memset(num, '\0', 1);
@@ -236,7 +240,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 				getOne(buffer, postings[postNum - 1]);
 			}
 			break;
-		case 2:
+		case 2:		//POST
 
 			while (newPost != NULL)
 			{
@@ -265,7 +269,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			postOne(buffer, author, topic, title, postings);
 
 			break;
-		case 3:
+		case 3:		//PUT
 
 			while (newPost != NULL)
 			{
@@ -301,7 +305,7 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			putOne(buffer, author, topic, title, &postings[number - 1]);
 
 			break;
-		case 4:
+		case 4:		//DELETE
 			//DELETE /posts/#/
 			while (newPost != NULL)
 			{
@@ -321,13 +325,13 @@ void RecvRequestAndSendResponse(SOCKET socket_client, LIST postings[])
 			deleteOne(buffer, postings, deleteNum);
 
 			break;
-		case 5:
+		case 5:		//EXIT
 
 			killSwitch = 1;
 			break;
 		default:
 
-			printf("default");
+			//printf("default");
 			break;
 		}
 

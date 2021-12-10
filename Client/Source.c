@@ -30,7 +30,7 @@ int main(void)
 
 	int killSwitch = 0;
 
-	while (killSwitch == 0)
+	while (killSwitch == 0)		//Main loop for client to keep running until EXIT
 	{
 		
 		bool checkMenuInput = true;
@@ -60,19 +60,6 @@ int main(void)
 		char message[1000];
 		memset(message, '\0', 1000);
 
-		/*char author[100];
-		memset(author, '\0', 100);
-
-		char topic[100];
-		memset(topic, '\0', 100);
-
-		char title[100];
-		memset(title, '\0', 100);
-
-		int postNum;*/
-
-
-		
 		int menuExit = 0;
 
 		switch (choice)
@@ -136,7 +123,7 @@ int main(void)
 			break;
 		}
 
-		if (menuExit == 0)
+		if (menuExit == 0)		//if request is garbage then go back to menu and dont send request
 		{
 			int sent = send(peer_socket, message, strlen(message), 0);
 			if (sent == 0)

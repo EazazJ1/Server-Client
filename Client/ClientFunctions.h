@@ -1,3 +1,11 @@
+//CSCN72020-F21
+//Assignment 3
+//
+//Eazaz Jakda
+//
+//December 10. 2021
+//
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>

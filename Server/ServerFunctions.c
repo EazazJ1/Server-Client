@@ -1,3 +1,11 @@
+//CSCN72020-F21
+//Assignment 3
+//
+//Eazaz Jakda
+//
+//December 10. 2021
+//
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
@@ -42,8 +50,6 @@ void save(LIST postings[])
 	for (int i = 0; i < 10; i++)
 	{
 		fwrite(&postings[i], sizeof(LIST), 1, saveFile);
-
-		//fprintf(saveFile, "%d %s %s %s %d\n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title, postings[i].set);
 	}
 
 	if (fwrite != 0)
@@ -54,7 +60,7 @@ void save(LIST postings[])
 	// close file
 	fclose(saveFile);
 
-
+	//Save into to 2 files. This file I can see what it says when i open it.
 
 	FILE* saveFile2;
 
@@ -67,15 +73,17 @@ void save(LIST postings[])
 	}
 	for (int i = 0; i < 10; i++)
 	{
-		//fwrite(&postings[i], sizeof(LIST), 1, saveFile);
-
 		fprintf(saveFile2, "%d %s %s %s %d\n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title, postings[i].set);
 	}
 
 	if (fwrite != 0)
+	{
 		printf("contents to file written successfully !\n");
+	}		
 	else
-		printf("error writing file !\n");
+	{
+		printf("error writing file!\n");
+	}		
 
 	// close file
 	fclose(saveFile2);
