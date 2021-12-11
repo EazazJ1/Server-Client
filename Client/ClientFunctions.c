@@ -15,40 +15,39 @@
 #include "ClientFunctions.h"
 
 
-void getOnePost(char* message, int num)
+void getOnePost(char* message, int num)		//set the message up to send to the server for getting one post
 {
-	char defaultMessage[1000] = { "GET /posts/" };
+	char defaultMessage[1000] = { "GET /posts/" };		//get format before adding number
 
-	//strcat(defaultMessage, num);
 	char number[5];
 	sprintf(number, "%d", num);
-	strcat(defaultMessage, number);
+	strcat(defaultMessage, number);		//add the post number to the string
 
-	snprintf(message, "%s", defaultMessage);
-
-}
-
-void getAllPosts(char* message)
-{
-	char defaultMessage[1000] = { "GET /posts " };
-
-	snprintf(message, "%s", defaultMessage);
+	snprintf(message, "%s", defaultMessage);		//add it to the message to send to server
 
 }
 
-void getFilter(char* message, char* author, char* topic, char* title)
+void getAllPosts(char* message)		//set the message up to send to the server for getting all posts
 {
-	char defaultMessage[1000] = { "GET /posts?" };
+	char defaultMessage[1000] = { "GET /posts " };		//get format for all posts
+
+	snprintf(message, "%s", defaultMessage);		//add to message to send to server
+
+}
+
+void getFilter(char* message, char* author, char* topic, char* title)		//set the message up to send to the server for getting a post by filtering
+{
+	char defaultMessage[1000] = { "GET /posts?" };		//get format for getting post with filter
 	int count = 0;
 
-	if (strcmp(author, "na") != 0)
+	if (strcmp(author, "na") != 0)			//if author is one of the filters then add the information to the string so that it can be added to the message at the end
 	{
 		strcat(defaultMessage, "author=");
 		strcat(defaultMessage, author);
 		count++;
 	}
 
-	if (strcmp(topic, "na") != 0)
+	if (strcmp(topic, "na") != 0)		//if topic is one of the filters then add the information to the string so that it can be added to the message at the end
 	{
 		
 		if (count == 0)
@@ -68,7 +67,7 @@ void getFilter(char* message, char* author, char* topic, char* title)
 		
 	}
 
-	if (strcmp(title, "na") != 0)
+	if (strcmp(title, "na") != 0)		//if title is one of the filters then add the information to the string so that it can be added to the message at the end
 	{
 		
 		if (count == 0)
@@ -87,26 +86,22 @@ void getFilter(char* message, char* author, char* topic, char* title)
 
 	}
 
-	if (count == 0)
+	if (count == 0)			//if no filters then set message to "QUIT " and go back to menu
 	{
 		exitMenuandCall(message);
 	}
 	else
 	{
-		strcat(message, defaultMessage);
+		strcat(message, defaultMessage);	// add everything to the message to send to server
 	}
 
 	
 
 }
 
-void addPost(char* message, char* author, char* topic, char* title) 
+void addPost(char* message, char* author, char* topic, char* title)		//set the message up to send to the server for adding a new post
 {
-	char defaultMessage[1000] = { "POST /posts/" };
-
-	//char temp[1000];
-
-	//snprintf(temp, "%s%s/%s/%s/", defaultMessage, &author, &topic, &title);
+	char defaultMessage[1000] = { "POST /posts/" };		//Post format before values
 
 	strcat(defaultMessage, author);
 	strcat(defaultMessage, "/");
@@ -116,17 +111,17 @@ void addPost(char* message, char* author, char* topic, char* title)
 
 
 
-	strcat(message, defaultMessage);
+	strcat(message, defaultMessage);		//add everything to message to send to server
 
 
 }
 
-void updatePost(char* message, char* author, char* topic, char* title, int num)
+void updatePost(char* message, char* author, char* topic, char* title, int num)			//set the message up to send to the server for updating a post
 {
 	char number[5];
 	sprintf(number, "%d", num);
 	
-	char defaultMessage[1000] = { "PUT /posts/" };
+	char defaultMessage[1000] = { "PUT /posts/" };		//put format
 
 	strcat(defaultMessage, number);
 	strcat(defaultMessage, "/");
@@ -138,30 +133,30 @@ void updatePost(char* message, char* author, char* topic, char* title, int num)
 
 
 
-	strcat(message, defaultMessage);
+	strcat(message, defaultMessage);		//add everything to the message to send to the server
 }
 
-void deletePost(char* message, int num)
+void deletePost(char* message, int num)		//set the message up to send to the server for deleting a post
 {
-	char defaultMessage[1000] = { "DELETE /posts/" };
+	char defaultMessage[1000] = { "DELETE /posts/" };		//delete format
 
 	char number[5];
 	sprintf(number, "%d", num);
 
 	strcat(defaultMessage, number);
 
-	strcat(message, defaultMessage);
+	strcat(message, defaultMessage);	//add number to the message to send to the server
 }
 
 
 
 
-void exitMenuandCall(char* message)
+void exitMenuandCall(char* message)		//send a message to let server know to exit
 {
 	strcpy(message, "QUIT ");
 }
 
-void getSinglePostInputandCall(char* message)
+void getSinglePostInputandCall(char* message)		//get input for the get a single post function
 {
 	int check = 0;
 	int postNum;
@@ -187,7 +182,7 @@ void getSinglePostInputandCall(char* message)
 	}
 }
 
-void postInputandCall(char* message)
+void postInputandCall(char* message)		//get input for the add a post function
 {
 	char author[100];
 	memset(author, '\0', 100);
@@ -217,7 +212,7 @@ void postInputandCall(char* message)
 	addPost(message, author, topic, title);
 }
 
-void putInputandCall(char* message)
+void putInputandCall(char* message)		//get input for the update a post function
 {
 	char author[100];
 	memset(author, '\0', 100);
@@ -319,7 +314,7 @@ void putInputandCall(char* message)
 }
 
 
-void deleteInputandCall(char* message)
+void deleteInputandCall(char* message)		//get input for the delete a single post function
 {
 	int check = 0;
 	int postNum;
@@ -351,7 +346,7 @@ void deleteInputandCall(char* message)
 	}
 }
 
-void getFilterInputandCall(char* message)
+void getFilterInputandCall(char* message)		//get input for the get a post with filters function
 {
 	char author[100];
 	memset(author, '\0', 100);

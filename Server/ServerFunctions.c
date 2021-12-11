@@ -17,7 +17,7 @@
 
 
 
-void load(LIST postings[])
+void load(LIST postings[])		//load the list of postings on startup
 {
 	FILE* loadFile;
 	loadFile = fopen("Data.txt", "r");
@@ -36,7 +36,7 @@ void load(LIST postings[])
 	fclose(loadFile);
 }
 
-void save(LIST postings[])
+void save(LIST postings[])		//save the listof postings when the server is shutdown
 {
 	FILE* saveFile;
 

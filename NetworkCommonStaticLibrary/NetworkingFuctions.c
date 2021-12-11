@@ -380,7 +380,7 @@ void ShutdownWindowsSockets()
 }
 
 
-int OperationNum(char firstword[])
+int OperationNum(char firstword[])	//Takes the firstword from the request that was ssent from client and determines what needs to be done, get, post, put delete, etc
 {
 	int result;
 
@@ -413,7 +413,7 @@ int OperationNum(char firstword[])
 	return result;
 }
 
-void InitList(LIST postings[])
+void InitList(LIST postings[])		//Sets the postings list to empty
 {
 	for (int i = 0; i < 10; i++)
 	{
@@ -425,52 +425,52 @@ void InitList(LIST postings[])
 	}
 }
 
-void getAll(char* buffer, LIST postings[])
+void getAll(char* buffer, LIST postings[])		//Send the list of all posting to the client
 {
 	const char* response =
 		"HTTP/1.1 200 OK\r\n"
 		"Connection: close\r\n"
 		"Content-Type: text/plain\r\n\r\n";
 
-	strcat(buffer, response);
+	strcat(buffer, response);		//add the response to the buffer
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)		//go through and add all the postings to the buffer
 	{
 		if (postings[i].set == true)
 		{
 			char tempString[SENDBUFFERSIZE];
 			memset(tempString, '\0', SENDBUFFERSIZE);
 			snprintf(tempString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
-			strcat(buffer, tempString);
+			strcat(buffer, tempString);	//add to buffer
 		}
 
 	}
 
 
 }
-void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[])
+void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[])		//get the posts by using the filters sent from the client
 {
 	const char* response =
 		"HTTP/1.1 200 OK\r\n"
 		"Connection: close\r\n"
 		"Content-Type: text/plain\r\n\r\n";
 
-	strcat(buffer, response);
+	strcat(buffer, response);		//add response to the buffer
 
 	char wantedString[SENDBUFFERSIZE];
 	memset(wantedString, '\0', SENDBUFFERSIZE);
 
-	if (strcmp(str[0], "author") == 0 && strcmp(str[2], "topic") == 0 && strcmp(str[4], "title") == 0)
+	if (strcmp(str[0], "author") == 0 && strcmp(str[2], "topic") == 0 && strcmp(str[4], "title") == 0)		//if all the 3 fields were used to filter
 	{
 		printf("All 3");
 
-		for (int i = 0; i < MAXPOSTINGS; i++)
+		for (int i = 0; i < MAXPOSTINGS; i++)		//go through list 
 		{
-			if (strcmp(str[1], postings[i].author) == 0)
+			if (strcmp(str[1], postings[i].author) == 0)		//if the filter for author matches, go to next if
 			{
-				if (strcmp(str[3], postings[i].topic) == 0)
+				if (strcmp(str[3], postings[i].topic) == 0)		//if the filter for topic matches, go to next if
 				{
-					if (strcmp(str[5], postings[i].title) == 0)
+					if (strcmp(str[5], postings[i].title) == 0)		//if the filter for title matches, add posting to buffer
 					{
 						snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 						strcat(buffer, wantedString);
@@ -479,15 +479,15 @@ void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[])
 			}
 		}
 	}
-	else if (strcmp(str[0], "topic") == 0 && strcmp(str[2], "title") == 0 && strcmp(str[4], "") == 0)
+	else if (strcmp(str[0], "topic") == 0 && strcmp(str[2], "title") == 0 && strcmp(str[4], "") == 0)		//if topic and title fields were used to filter
 	{
 		printf("topic and title");
 
-		for (int i = 0; i < MAXPOSTINGS; i++)
+		for (int i = 0; i < MAXPOSTINGS; i++)		//go through list
 		{
-			if (strcmp(str[1], postings[i].topic) == 0)
+			if (strcmp(str[1], postings[i].topic) == 0)			//if the filter for topic matches, go to next if
 			{
-				if (strcmp(str[3], postings[i].title) == 0)
+				if (strcmp(str[3], postings[i].title) == 0)		//if the filter for title matches, add posting to buffer
 				{
 					snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 					strcat(buffer, wantedString);
@@ -495,15 +495,15 @@ void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[])
 			}
 		}
 	}
-	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "topic") == 0 && strcmp(str[4], "") == 0)
+	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "topic") == 0 && strcmp(str[4], "") == 0)		//if author and topic fields were used to filter
 	{
 		printf("author and topic");
 
-		for (int i = 0; i < MAXPOSTINGS; i++)
+		for (int i = 0; i < MAXPOSTINGS; i++)		//go through list
 		{
-			if (strcmp(str[1], postings[i].author) == 0)
+			if (strcmp(str[1], postings[i].author) == 0)		//if the filter for author matches, go to next if
 			{
-				if (strcmp(str[3], postings[i].topic) == 0)
+				if (strcmp(str[3], postings[i].topic) == 0)		//if the filter for topic matches, add posting to buffer
 				{
 					snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 					strcat(buffer, wantedString);
@@ -511,15 +511,15 @@ void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[])
 			}
 		}
 	}
-	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "title") == 0 && strcmp(str[4], "") == 0)
+	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "title") == 0 && strcmp(str[4], "") == 0)		//if author and title fields were used to filter
 	{
 		printf("author and title");
 
-		for (int i = 0; i < MAXPOSTINGS; i++)
+		for (int i = 0; i < MAXPOSTINGS; i++)		//go through list
 		{
-			if (strcmp(str[1], postings[i].author) == 0)
+			if (strcmp(str[1], postings[i].author) == 0)		//if the filter for author matches, go to next if
 			{
-				if (strcmp(str[3], postings[i].title) == 0)
+				if (strcmp(str[3], postings[i].title) == 0)		//if the filter for title matches, add posting to buffer
 				{
 					snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 					strcat(buffer, wantedString);
@@ -527,39 +527,39 @@ void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[])
 			}
 		}
 	}
-	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)
+	else if (strcmp(str[0], "author") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)		//if ONLY author was used to filter
 	{
 		printf("Only author");
 
 		for (int i = 0; i < MAXPOSTINGS; i++)
 		{
-			if (strcmp(str[1], postings[i].author) == 0)
+			if (strcmp(str[1], postings[i].author) == 0)		//if the filter for author matches, add posting to buffer
 			{
 				snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 				strcat(buffer, wantedString);
 			}
 		}
 	}
-	else if (strcmp(str[0], "topic") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)
+	else if (strcmp(str[0], "topic") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)		//if ONLY topic was used to filter
 	{
 		printf("Only topic");
 
 		for (int i = 0; i < MAXPOSTINGS; i++)
 		{
-			if (strcmp(str[1], postings[i].topic) == 0)
+			if (strcmp(str[1], postings[i].topic) == 0)		//if the filter for topic matches, add posting to buffer
 			{
 				snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 				strcat(buffer, wantedString);
 			}
 		}
 	}
-	else if (strcmp(str[0], "title") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)
+	else if (strcmp(str[0], "title") == 0 && strcmp(str[2], "") == 0 && strcmp(str[4], "") == 0)		//if ONLY title was used to filter
 	{
 		printf("Only title");
 
 		for (int i = 0; i < MAXPOSTINGS; i++)
 		{
-			if (strcmp(str[1], postings[i].title) == 0)
+			if (strcmp(str[1], postings[i].title) == 0)		//if the filter for title matches, add posting to buffer
 			{
 				snprintf(wantedString, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings[i].postNum, postings[i].author, postings[i].topic, postings[i].title);
 				strcat(buffer, wantedString);
@@ -572,30 +572,30 @@ void getFilterStrings(char* buffer, char* request, LIST postings[], char* str[])
 	}
 }
 
-void parseFilter(char* buffer, char* request, LIST postings[])
+void parseFilter(char* buffer, char* request, LIST postings[])		//parse the request and get the actual strings that the postings need to be filtered by and then call the getFilterStrings()
 {
 	char delim[] = "= &";
 
 	char filterString[100];
 	memset(filterString, '\0', 100);
 
-	strncpy(filterString, &request[11], 99);
+	strncpy(filterString, &request[11], 99);		//put the string after the "?" in the new string
 
 	char* filter;
-	filter = strtok(filterString, delim);
+	filter = strtok(filterString, delim);		//get the first filter
 
-	char* str[6];
+	char* str[6];		//string to hold the filter types such as author, topic and title as well as their values
 
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 6; i++)			//calloc to allocate memory and set string to empty
 	{
 		str[i] = calloc((strlen(filter) + 1), *filter);
 	}
 
 	int myNum = 1;
-	strcpy(str[0], filter);
+	strcpy(str[0], filter);		//add the first word to the string
 
-	while (filter != NULL)
+	while (filter != NULL)		// go through and add the words to the string while parsing
 	{
 		filter = strtok(NULL, delim);
 
@@ -638,10 +638,10 @@ void parseFilter(char* buffer, char* request, LIST postings[])
 
 	getFilterStrings(buffer, request, postings, str);		//actually use filter to get posting and send back
 
-	free(*str);
+	free(*str);			//de allocate memory for str
 }
 
-void getOne(char* buffer, LIST postings)
+void getOne(char* buffer, LIST postings)		//get one posting depending on number from client
 {
 
 	const char* response =
@@ -649,24 +649,25 @@ void getOne(char* buffer, LIST postings)
 		"Connection: close\r\n"
 		"Content-Type: text/plain\r\n\r\n";
 
-	strcat(buffer, response);
+	strcat(buffer, response);		//add response to buffer
+
 	char tempStringTwo[SENDBUFFERSIZE];
 	memset(tempStringTwo, '\0', SENDBUFFERSIZE);
 
 	snprintf(tempStringTwo, SENDBUFFERSIZE, "Post: %d Author: %s Topic: %s Title: %s \n", postings.postNum, postings.author, postings.topic, postings.title);
 
-	strcat(buffer, tempStringTwo);
+	strcat(buffer, tempStringTwo);		//add posting to buffer
 
 
 }
 
-void postOne(char* buffer, char* author, char* topic, char* title, LIST postings[])
+void postOne(char* buffer, char* author, char* topic, char* title, LIST postings[])		//add a new posting to the list
 {
 	int count = 0;
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)		//check list and find an empty spot
 	{
-		if (postings[i].set == false)
+		if (postings[i].set == false)		//if empty then set to the values of the new posting
 		{
 			strcpy(postings[i].author, author);
 			strcpy(postings[i].topic, topic);
@@ -688,22 +689,22 @@ void postOne(char* buffer, char* author, char* topic, char* title, LIST postings
 		"Content-Type: text/plain\r\n\r\n";
 
 
-	strcat(buffer, response);
+	strcat(buffer, response);		//add response to buffer
 
 }
 
-void putOne(char* buffer, char* author, char* topic, char* title, LIST* postings)
+void putOne(char* buffer, char* author, char* topic, char* title, LIST* postings)		//update one of the posting depending on the number that the client sent
 {
 	char* unchanged = "unchanged";
-	if (strcmp(author, "unchanged") != 0)
+	if (strcmp(author, "unchanged") != 0)			//if author string doesnt equal unchaged then set to new value
 	{
 		strcpy(postings->author, author);
 	}
-	if (strcmp(topic, "unchanged") != 0)
+	if (strcmp(topic, "unchanged") != 0)			//if topic string doesnt equal unchaged then set to new value
 	{
 		strcpy(postings->topic, topic);
 	}
-	if (strcmp(title, "unchanged") != 0)
+	if (strcmp(title, "unchanged") != 0)			//if title string doesnt equal unchaged then set to new value
 	{
 		strcpy(postings->title, title);
 	}
@@ -714,23 +715,23 @@ void putOne(char* buffer, char* author, char* topic, char* title, LIST* postings
 		"Content-Type: text/plain\r\n\r\n";
 
 
-	strcat(buffer, response);
+	strcat(buffer, response);	//add response to the buffer
 
 }
 
 
-void deleteOne(char* buffer, LIST postings[], int num)
+void deleteOne(char* buffer, LIST postings[], int num)		//delete one posting from the list depending on what the client sent
 {
 	strcpy(postings[num].author, "UNSET");
-	strcpy(postings[num].topic, "UNSET");
+	strcpy(postings[num].topic, "UNSET");			//These lines of code are setting the chosen posting to nothing and as unset
 	strcpy(postings[num].title, "UNSET");
 	postings[num].set = false;
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)			//this loop is making sure that the list is sorted.
 	{
-		if (postings[i].set == false)
+		if (postings[i].set == false)		//if post at i is empty then check next post to see if its empty
 		{
-			if (postings[i + 1].set == true)
+			if (postings[i + 1].set == true)		//if the post after the i is not empty, then take the values and move it up one spot into the empty one and set the i + 1 posting to empty
 			{
 				strcpy(postings[i].author, postings[i + 1].author);
 				strcpy(postings[i].topic, postings[i + 1].topic);
@@ -751,6 +752,6 @@ void deleteOne(char* buffer, LIST postings[], int num)
 		"Content-Type: text/plain\r\n\r\n";
 
 
-	strcat(buffer, response);
+	strcat(buffer, response);		//add response to the buffer
 
 }

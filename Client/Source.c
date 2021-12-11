@@ -64,7 +64,7 @@ int main(void)
 
 		switch (choice)
 		{
-		case 0:
+		case 0:		//Exit
 
 			printf("Exiting...");
 
@@ -72,12 +72,12 @@ int main(void)
 			killSwitch = 1;
 
 			break;
-		case 1:
+		case 1:		//get collection
 
 			getAllPosts(message);
 			
 			break;
-		case 2:
+		case 2:		//get with filtering
 
 			getFilterInputandCall(message);
 			if (strcmp(message, "QUIT ") == 0)
@@ -86,7 +86,7 @@ int main(void)
 			}
 
 			break;
-		case 3:
+		case 3:		//get a single post 
 
 			getSinglePostInputandCall(message);
 			if (strcmp(message, "QUIT ") == 0)
@@ -95,12 +95,12 @@ int main(void)
 			}
 
 			break;
-		case 4:
+		case 4:		//add a posting 
 
 			postInputandCall(message);
 
 			break;
-		case 5:
+		case 5:		//update a post
 
 			putInputandCall(message);
 			if (strcmp(message, "QUIT ") == 0)
@@ -108,7 +108,7 @@ int main(void)
 				menuExit = 1;
 			}
 			break;
-		case 6:
+		case 6:		//delete a post
 
 			deleteInputandCall(message);
 			if (strcmp(message, "QUIT ") == 0)
